@@ -1,0 +1,68 @@
+#!/bin/bash
+menutmp=/tmp/fvwmmenu
+tmpitem=$menutmp/item
+
+catagories="Development System Office Network Utility Multimedia Games Graphics Setting Windows Other"
+
+mkdir -p /tmp/fvwmmenu
+echo -n > $HOME/.fvwm/AppMenu
+
+for menu in $catagories
+do
+	(echo  "DestroyMenu \"$menu\""
+	echo "AddToMenu \"$menu\" ") >$menutmp/$menu
+done
+
+for item in /usr/share/applications/*.desktop /usr/local/share/applications/*.desktop ~/.gnome2/vfolders/applications/*.desktop /usr/share/applications/kde4/*.desktop
+do
+	if [ -f $item ]
+	then
+		grep -q "^NoDisplay=[Tt]rue" $item && continue
+		iconv -f utf-8 -o $tmpitem "$item"
+		exe="`sed -n "s/^Exec=//p" $tmpitem`"
+		[ "$exe" == "" ] && continue
+		exe="${exe#\"}"
+		exe="${exe%\"}"
+		exe="${exe% \%[uU]}"
+		bexe="${exe#/}"
+		if [ "$bexe" == "$exe" ] 
+		then
+			exepath="`find -L ${PATH//:/ } -maxdepth 1 -type f -name ${exe%% *} 2>/dev/null`"
+		elif [ -f ${exe%% *} ] 
+		then 
+			exepath="${exe%% *}" 
+		else
+			echo $item>>missing
+			continue
+		fi
+		[ "$exepath" == "" ] && echo $item>> missing && continue
+		menu=Other
+		for cata in $catagories
+		do
+			[ "$cata" == Multimedia ] && aa=Audio || aa=$cata
+			grep -q "^Categories=.*$aa" $tmpitem&& menu=$cata && break
+		done
+		icon="`sed -n "s/^Icon=//p" $tmpitem`"
+		name="`sed -n "s/^Name=//p" $tmpitem`"
+		echo "+ \"&$name`$HOME/.fvwm/scripts/createicon "$icon" $exe`\" Exec exec $exe" >> $menutmp/$menu
+	fi
+done
+
+#appmenu="DestroyMenu \"Applications\"
+#AddToMenu   \"Applications\" \"Applications\" Title Top
+appmenu="
+AddToMenu   + \"\" Nop
+
+"
+for menu in $catagories
+do
+	if ! tail -n 1 $menutmp/$menu | grep -q "^AddToMenu"
+	then
+		cat $menutmp/$menu >> $HOME/.fvwm/AppMenu
+		echo >>$HOME/.fvwm/AppMenu
+		appmenu=$appmenu"+ \"&$menu`$HOME/.fvwm/scripts/createicon "$menu" "folder"`\" Popup \"$menu\"
+"
+	fi
+done
+echo "$appmenu" >> $HOME/.fvwm/AppMenu
+rm -fr $menutmp

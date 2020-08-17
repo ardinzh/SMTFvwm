@@ -1,0 +1,680 @@
+SetEnv walldir $[FVWM_USERDIR]/wallpapers
+ImagePath $[FVWM_USERDIR]/images/icons:+:$[FVWM_USERDIR]/images/deco:+:$[FVWM_USERDIR]/images/menu:+:$[FVWM_USERDIR]/images/buttons
+# ImagePath $[ImagePath]:+:/usr/share/icons/Tango
+
+#############################
+#   Setting
+###############################
+
+DeskTopSize 3x3
+IgnoreModifiers L25
+HideGeometryWindow Always
+EwmhBaseStruts 2 2 2 2
+#SnapAttraction 3 SameType
+Style * SnapAttraction 3 SameType
+EdgeScroll 0 0
+EdgeResistance 1000 10
+#EdgeResistance 15 100
+EdgeThickness 1
+EdgeCommand Left nop
+ClickTime 100
+MoveThreshold 3
+OpaqueMoveSize unlimited
+BugOpts FlickeringMoveWorkaround Off
+SnapGrid 1 1
+# Turn Xinerama support on, use primary screen 2
+# XineramaPrimaryScreen 0
+# Xinerama on
+# Style * StartsOnScreen 0
+
+#XineramaSlsScreens 2  1024x768+0+0 1024x768+1024+0
+#XineramaSlsScreens 2  1280x960+0+0 1280x960+1024+0
+XineramaSlsScreens 2  1920x1080+0+0 1920x1080+1920+0
+XineramaSls On
+XineramaPrimaryScreen 0
+# Style * StartsOnScreen 0
+Xinerama On
+
+#############################
+#   FvwmEvent
+###############################
+
+DestroyModuleConfig FvwmEvent: *
+*FvwmEvent: Cmd Function
+*FvwmEvent: new_page CurrentPageFocusFunc
+*FvwmEvent: new_desk CurrentPageFocusFunc
+*FvwmEvent: destroy_window CurrentPageFocusFunc
+*FvwmEvent: focus_change MarkWindowAsActiveFunc
+
+DestroyFunc StartFunction
+AddToFunc StartFunction
++ I Module FvwmCommandS
++ I Module FvwmEvent
+# + I Module FvwmButtons
++ I Module FvwmPager
++ I Test (Init) Exec habak -ms $[walldir]
++ I Exec tint2 -c $[FVWM_USERDIR]/scripts/tint2rc_black
+# + I Exec sleep 3 && conky -c $[FVWM_USERDIR]/scripts/conkyrc
++ I Exec conky -c $[FVWM_USERDIR]/scripts/conkyrc
++ I Exec volwheel
+# + I Exec fcitx  
++ I Exec urxvtd 
++ I Exec udiskie -t
++ I Exec /usr/bin/xscreensaver -no-splash 
+# + I Exec compton -Cc -r 8 -o .55 -l -12 -t -12 -I .02 -O .02 -m 1 --dbus --xinerama-shadow-crop 
++ I Exec compton -cCGfF -o 0.38 -O 200 -I 200 -t 0 -l -6 -r 5 -D2 -m 0.88 --xinerama-shadow-crop
+
+DestroyFunc ExitFunction
+AddToFunc ExitFunction
++ I Exec rm $[FVWM_USERDIR]/images/tmp/*
++ I Exec killall tint2 
++ I Exec killall conky
++ I Exec killall udiskie
+# + I Exec killall devmon
++ I Exec killall urxvtd
+# + I Exec killall fcitx
++ I Exec killall perl 
+#+ I Exec killall volwheel
+
+#DestroyFunc WindowListFunc
+#AddToFunc WindowListFunc
+#+ I Iconify off
+#+ I FlipFocus NoWarp
+#+ I WindowShade False
+#+ I Raise
+########################## Window-Lister ###############################
+#*FvwmWinList: Back DarkOliveGreen
+#*FvwmWinList: Fore PaleGoldenRod
+#*FvwmWinList: Font -*-new century schoolbook-bold-r-*-*-*-120-*-*-*-*-*-*
+#*FvwmWinList: Action Click1 Function DeiconifyAndRaise
+#*FvwmWinList: Action Click2 Iconify
+#*FvwmWinList: Action Click3 Module FvwmIdent
+#*FvwmWinList: UseSkipList
+#*FvwmWinList: UseIconNames
+#*FvwmWinList: Geometry -50-85
+#*FvwmWinowList: MinWidth 70
+#*FvwmWinList: MaxWidth 120
+# I prefer the text centered
+#*FvwmWinList: LeftJustify
+# I like it anchored
+#*FvwmWinList: NoAnchor
+# A flat list in most recently focused order
+#*FvwmWinList: FollowWindowList
+#*FvwmWinList: BorderReliefWidth 0
+# pretend to be a taskbar
+#*FvwmWinList: NoIconAction SendToModule FvwmAnimate animate
+
+DestroyFunc WindowListFunc
+AddToFunc WindowListFunc
++ I WindowShade False
++ I Iconify off
++ I Raise
++ I FlipFocus
+
+DestroyFunc RebuildMenu
+AddToFunc RebuildMenu
++ I Exec $[FVWM_USERDIR]/scripts/genmenu
+# + I Read $[FVWM_USERDIR]/AppMenu
+
+#Key Tab		A	M	WindowList Sticky, OnTop, 70X120-50-85, 
+Key Tab		A	M	WindowList Root NoCurrentDeskTitle
+
+#####   Alt+Tab
+##Key Tab  A M AltTab
+
+#DestroyFunc AltTab
+# 鼠标会跳到窗口的正中，图标化的窗口不参加循环,当前窗口变到80 80 ？。
+#AddToFunc AltTab
+#+ I All (State 2, Maximized) Maximize off
+#+ I All (State 2) State 2 false
+#+ I Next (AcceptsFocus CurrentDesk CurrentPage !Iconic) State 2
+#+ I All (State 2) Focus
+#+ I All (State 2) ResizeMoveMaximize 80 80 10% 10%
+#+ I All (State 2) Raise
+
+# 鼠标会跳到窗口的正中，图标化的窗口不参加循环。
+##AddToFunc AltTab
+##SetEnv DIR Next
+##+ I Next (AcceptsFocus CurrentDesk CurrentPage !Iconic) Focus
+##+ I Prev (AcceptsFocus CurrentDesk CurrentPage !Iconic) WarpToWindow 50 50
+
+# 鼠标不会跳，窗口顺序是乱的。
+#AddToFunc FocusRaiseAndStuff
+#+ I Iconify off
+#+ I Focus
+#+ I Raise
+#AddToFunc AltTab
+#+ I $[DIR] (CurrentPage, !Iconic, !Sticky) FocusRaiseAndStuff
+#+ I Deschedule 134000
+#+ I PipeRead `[ "$[DIR]" == "Prev" ] && \
+#echo 'SetEnv NDIR Next' || \
+#echo 'SetEnv NDIR Prev'`
+#+ I Schedule 700 134000 SetEnv DIR $[NDIR]
+
+# 窗口不会升到顶
+#AddToFunc    AltTab
+#+ I Current (State 1, Maximized) Maximize off
+#+ I TestRc (Match) !State 1
+#+ I TestRc (Match) Break
+#+ I Next (AcceptsFocus) Focus
+#+ I TestRc (Match) State 1
+#+ I ResizeMoveMaximize foo bar
+
+######################################3
+
+DestroyFunc MaximizeFunc
+AddToFunc MaximizeFunc
++ C Maximize
++ D Maximize ewmhiwa True
++ M Nop
+
+DestroyFunc MaximizeTitleBarFunc 
+AddToFunc MaximizeTitleBarFunc 
++ I Raise
++ D Maximize ewmhiwa 
++ M Move
+
+AddToFunc ResizeFunc 
++ I EWMHActivateWindowFunc
++ I Resize
+
+AddToFunc MoveFunc
++ I EWMHActivateWindowFunc
++ I Move
+
+DestroyFunc CurrentPageFocusFunc
+AddToFunc CurrentPageFocusFunc 
++ I Next (CurrentPage, State 2) Focus
++ I None (CurrentPage, Focused) Prev (CurrentPage, !Iconified, !Sticky) Focus
+
+DestroyFunc MarkWindowAsActiveFunc
+AddToFunc MarkWindowAsActiveFunc 
++ I Current (!Iconified) All (CurrentPage, !Focused) State 2 False
++ I Current (!Iconified) State 2 True
+
+DestroyFunc RootLeftClick
+AddToFunc RootLeftClick
++ M Current (CurrentPage, !Iconic) MoveFunc
++ D All (CurrentPage, !Iconic, !Shaded, !MPlayer) Iconify on
+
+DestroyFunc RootRightClick 
+AddToFunc RootRightClick
++ C All (FvwmButtons, !Shaded) Popup MenuFvwmRoot
+#+ H All (CurrentPage, Focused, !Iconic) Popup menu_WindowOps
++ M All (CurrentPage, Focused, !Iconic) ResizeFunc
+
+DestroyFunc TitleLeftClick
+AddToFunc TitleLeftClick
++ I EWMHActivateWindowFunc
++ D RaiseLower
++ M MoveFunc
+
+DestroyFunc TitleRightClick
+AddToFunc TitleRightClick
++ C Menu menu_WindowOps
++ M ResizeFunc
+
+DestroyFunc FvwmSend&Go
+AddToFunc   FvwmSend&Go
++ I MoveToPage wrapx  1p 1
++ I GoToPage wrapx  1p 1
+
+DestroyFunc FuncMoveCenter
+AddToFunc FuncMoveCenter
++ I AnimatedMove -50 -50
++ I WarpToWindow 50 50
++ I AnimatedMove m+0 m+0 Warp
+
+DestroyFunc Thumbnail
+AddToFunc Thumbnail
++ I Raise
++ I ThisWindow (!Iconic) SetEnv Icon-$[w.id] $[w.iconfile]
++ I ThisWindow (!Shaded, Iconifiable, !Iconic) PipeRead \
+    "xwd -silent -id $[w.id] | convert -scale 150 \
+    -mattecolor black -quality 0 -filter blackman xwd:- png:$[FVWM_USERDIR]/images/tmp/icon.tmp.$[w.id].png \
+    && echo WindowStyle IconOverride, Icon $[FVWM_USERDIR]/images/tmp/icon.tmp.$[w.id].png \
+    || echo Nop"
++ I TestRc (Match) Test (f $[w.miniiconfile], f $[FVWM_USERDIR]/images/tmp/icon.tmp.$[w.id].png) PipeRead \
+    "composite -geometry +2+4 $[w.miniiconfile] $[FVWM_USERDIR]/images/tmp/icon.tmp.$[w.id].png \
+    $[FVWM_USERDIR]/images/tmp/icon.tmp.$[w.id].png; echo Nop"
++ I Iconify
+
+DestroyFunc ConfigBrowser
+AddToFunc ConfigBrowser
++ I DestroyMenu WallpaperBrowser
++ I AddToMenu WallpaperBrowser
++ I PipeRead 'test ! -d "$0/.thumbs" && mkdir "$0/.thumbs"; \
+    for i in "$0/"*; do \
+        test -f "$0/.thumbs/${i##*/}" \
+            -a "${i}" -ot "$0/.thumbs/${i##*/}" || { \
+                convert -quality 0 -scale 48 "${i}" "png:$0/.thumbs/${i##*/}" 2>/dev/null \
+                    || continue; \
+            }; \
+    done; \
+    fvwm-menu-directory --icon-title folder.png --icon-file __PIXMAP__ \
+    --icon-dir folder.png --dir $0 --exec-file "^habak -ms" \
+    --exec-t="^eog *" | sed -e "s#FuncFvwmMenuDirectory#WallpaperBrowser#g" \
+    -e "s#__PIXMAP__\\(.*\\)\\"\\(.*/\\)\\(.*\\)\\"#\\2.thumbs/\\3\\1\\2\\3#g"
+
+DestroyFunc WindowOpsFunc
+AddToFunc WindowOpsFunc
++ I DestroyMenu recreate menu_WindowOps
++ I AddToMenu menu_WindowOps $[w.class] Title
++ I + Send%go-next.png%		MoveToPage wrapx  1p 1
++ I + "Send&Go"%go-last.png%		Function FvwmSend&Go
++ I ThisWindow (!Iconic) + ""			Nop		
++ I ThisWindow (!Iconic, !Maximized, Maximizable) + "$[gt.Maximize]"%maximize.png% Pick Maximize
++ I TestRc (!Match) ThisWindow (!Iconic, Maximizable) + "$[gt.Restore Maximize]"%maximize.png% Pick Maximize
++ I TestRc (Error) + "$[gt.Maximize]"%maximize.png% Pick Maximize
++ I + Iconify%iconify.png%		Iconify
++ I ThisWindow (!Iconic, Shaded) + "$[gt.Unshade]"%shade.png% Pick WindowShade N
++ I TestRc (!Match) ThisWindow (!Iconic) + "$[gt.Shade]"%shade.png% Pick WindowShade N
++ I TestRc (Error) + "$[gt.Shade]"%shade.png% Pick WindowShade N
++ I ThisWindow (!Iconic, !Sticky) + "$[gt.Stick]"%stick.png% Pick Stick
++ I TestRc (!Match) ThisWindow (!Iconic) + "$[gt.UnStick]"%stick.png% Pick Stick
++ I TestRc (Error) + "$[gt.Stick]"%stick.png% Pick Stick
++ I ThisWindow (!Iconic, Layer 6) + "$[gt.Default Layer]" Pick Layer 0 4
++ I TestRc (!Match) ThisWindow (!Iconic) + "$[gt.Always on Top]" Pick Layer 0 6
++ I TestRc (Error) + "$[gt.Always on Top]" Pick Layer 0 6
++ I ThisWindow (!Iconic) + ""			Nop	
++ I ThisWindow (!Iconic) + "$[gt.Move]"%move.png%		MoveFunc
++ I ThisWindow (!Iconic) + "$[gt.Resize]"%resize.png%		ResizeFunc
++ I ThisWindow (!Iconic) + ""			Nop		
++ I ThisWindow (!Iconic) + "Advanced..."		Popup menu_WindowOpsAdv
++ I ThisWindow (!Iconic) + ""		Nop		
++ I + "$[gt.Close Window]"%destroy.png% Pick Close
+
+DestroyFunc WindowOpsFuncAdv
+AddToFunc WindowOpsFuncAdv
++ I DestroyMenu recreate menu_WindowOpsAdv
++ I AddToMenu menu_WindowOpsAdv
++ I ThisWindow (State 14) + "$[gt.Title]" WindowStyle Title
++ I TestRc (NoMatch) + "$[gt.NoTitle]" WindowStyle !Title
++ I State 14
++ I ThisWindow (State 15) + "$[gt.Borders]" WindowStyle Borders
++ I TestRc (NoMatch) + "$[gt.NoBorders]" WindowStyle !Borders
++ I State 15
++ I ThisWindow (FixedPosition) + "$[gt.UnBlock]"  WindowStyle VariablePosition, VariableSize
++ I TestRc (!Match) + "$[gt.Block]" WindowStyle FixedPosition, FixedSize
++ I + "Identify"%ident.png%		Module FvwmIdent
++ I + "$[gt.Destroy]"%kill.png% Pick Destroy
+
+#############################
+#   Style
+###############################
+
+Style * Colorset 1, HilightColorset 1
+Style * BorderWidth 0, HandleWidth 2, BorderColorset 6, HilightBorderColorset 6
+
+Style * Font "StringEncoding=UTF-8:xft:WenQuanYi Zen Hei:size=9:encoding=iso10646-1"
+Style * IconBox $[vp.width]x$[vp.height]+10+10, IconFill t l, IconBackgroundPadding 0, IconBackgroundRelief 0
+Style * !EWMHMiniIconOverride, IconOverride, NoIconTitle
+# Style * DecorateTransient, UseDecor WindowDecoration, !StickyStippledTitle, IndexedWindowName
+Style * DecorateTransient, UseDecor Glassy, !StickyStippledTitle, IndexedWindowName
+Style * MinOverlapPlacement
+Style * SloppyFocus
+# Style * MouseToFocus
+Style * ResizeOpaque
+Style * RoundedCornersTop, SlightlyRoundedCorners
+Style * RoundedCornersBottom, SlightlyRoundedCorners
+#Style * ResizeOutline, ResizeOutlineThin
+
+Style Fvwm* !Title, !Borders, !Iconifiable, WindowListSkip, !FixedPosition, FixedSize, Sticky
+Style FvwmButtons NeverFocus
+Style FvwmIdent Title
+Style FvwmConsole Title, Borders, !FixedSize
+
+Style tint2 !Title, !Borders, Sticky
+Style conky !Title, !Borders, Sticky
+# Style cairo-dock !Title, !Borders, Sticky
+# Style google-chrome-stable* !Title
+# Style *Chrome* !Title
+# Style TM2013* !Title
+Style wine* !Title
+
+
+#############################
+#   Mouse & Keyboard
+###############################
+
+Mouse 3		R		A   Menu MenuFvwmRoot
+Mouse 1		R		M   RootLeftClick
+Mouse 3     	R 		M   RootRightClick
+Mouse 1     	2		A   Close
+Mouse 1     	4		A   MaximizeFunc
+Mouse 3         6		A   Thumbnail
+Mouse 1     	FST		A   ResizeFunc
+Mouse 1     	W		M   MoveFunc
+Mouse 2     	W		M   Menu menu_WindowOps
+Mouse 1     	I		A   Iconify Off
+Mouse 3     	I		A   Menu menu_WindowOps
+Mouse 2     	4		A   Maximize     0 100
+Mouse 2         R		A   GoToPage wrapx 1p 1
+Mouse 2     	I		A   Menu menu_WindowOps
+Mouse 1	    	6		A   Thumbnail
+Mouse 3     	4		A   StrokeFunc
+Mouse 3		SFT		A   TitleLeftClick
+Mouse 4        	R		N   None (Maximized, Raised, Focused, !Iconic) Prev (CurrentPage, AcceptsFocus, !Iconic) EWMHActivateWindowFunc
+Mouse 5        	R		N   None (Maximized, Raised, Focused, !Iconic) Next (CurrentPage, AcceptsFocus, !Iconic) EWMHActivateWindowFunc
+Mouse 4     	T		A   WindowShade True
+Mouse 5     	T		A   WindowShade False
+Mouse 1		T		A   MaximizeTitleBarFunc 
+Mouse 3		1		A   Exec transset -i $[w.id]
+Mouse 4		1 		A   Exec transset --inc 0.1 -i $[w.id]
+Mouse 5		1 		A   Exec transset --dec 0.1 -i $[w.id]
+
+Mouse 1		R		N   StrokeFunc
+Stroke N456	0 	R	N   Exec urxvtc
+Stroke N654	0 	R	N   Exec rox
+Stroke N852	0 	R	N   Exec google-chrome-stable
+Stroke N258	0 	R	N   Exec smplayer
+Stroke N456	0 	TSF4	N   Maximize True growright 0
+Stroke N654	0 	TSF4	N   Maximize True growleft  0
+Stroke N852	0 	TSF4	N   Maximize True 0 growdown
+Stroke N258	0 	TSF4	N   Maximize True 0 growup
+#--------------------------------------------------------------------------
+Key F4		A	C	Module FvwmForm FvwmFormQuit
+key r		A	C	Restart
+Key F2		A	M	None (*run) Exec grun || gmrun || fbrun || xfrun4
+#Key t		A	C	Exec urxvtc
+Key o		A	C	Exec google-chrome-stable
+#Key Tab		A	M	WindowList Root c c NoCurrentDeskTitle
+#Key Tab 	A 	MC 	WindowList Root c c NoDeskSort, SelectOnR
+#Key   Tab   A   M   WindowList (AcceptsFocus !Shaded !Iconic CurrentPage)
+#Key   Tab   A   MS   WindowList (AcceptsFocus !Shaded !Iconic CurrentPage)
+Key Print	A	A	Exec scrot -q 100 screen-%F_%H%M%S.jpg
+Key F4		A	M	ThisWindow (!Iconic, !Shaded) Close
+Key q		A	M	ThisWindow (!Iconic, !Shaded) Close
+Key Super_L	A	A	Menu MenuFvwmRoot Rectangle +0+$[menupos] +0 +0
+Key Super_R	A	A	Menu MenuFvwmRoot Rectangle +0+$[menupos] +0 +0
+Key Menu	A	A	Current (CurrentPage, !Iconic) Menu menu_WindowOps
+Key Up		A 	MC	Current (CurrentPage, !Iconic) AnimatedMove keep w-7
+Key Down	A 	MC	Current (CurrentPage, !Iconic) AnimatedMove keep w+7
+Key Right	A 	MC	Current (CurrentPage, !Iconic) AnimatedMove w+7 w+0
+Key Left 	A	MC 	Current (CurrentPage, !Iconic) AnimatedMove w-7 w+0 
+Key Up		A	M	Exec amixer -q sset PCM 10%+
+Key Down	A	M	Exec amixer -q sset PCM 10%-
+Key Left	A	M	Prev (CurrentPage, AcceptsFocus, !Iconic) EWMHActivateWindowFunc
+Key Right	A	M	Next (CurrentPage, AcceptsFocus, !Iconic) EWMHActivateWindowFunc
+key F6		A	N	FuncMoveCenter
+key Up		W	MS	Exec transset --inc 0.1 -i $[w.id]
+key Down	W	MS	Exec transset --dec 0.1 -i $[w.id]
+key Right	A	MS	Exec amixer -q sset PCM 5%+
+key Left	A	MS	Exec amixer -q sset PCM 5%-
+Key F11		A	M	Current	Maximize	True	0	growdown
+Key F10		A	M	Current	Maximize	True	0	growup
+Key F9		A	M	Current	Maximize	True	growleft	0
+Key F12		A	M	Current	Maximize	True	growright	0
+
+Key KP_1	A	N	GoToPage wrapx 0 2
+Key KP_2	A	N	GoToPage wrapx 1 2
+Key KP_3	A	N	GoToPage wrapx 2 2
+Key KP_4	A	N	GoToPage wrapx 0 1
+Key KP_5	A	N	GoToPage wrapx 1 1
+Key KP_6	A	N	GoToPage wrapx 2 1
+Key KP_7	A	N	GoToPage wrapx 0 0
+Key KP_8	A	N	GoToPage wrapx 1 0
+Key KP_9	A	N	GoToPage wrapx 2 0
+Key KP_1	A	M	MoveToPage wrapx 0 2
+Key KP_2	A	M	MoveToPage wrapx 1 2
+Key KP_3	A	M	MoveToPage wrapx 2 2
+Key KP_4	A	M	MoveToPage wrapx 0 1
+Key KP_5	A	M	MoveToPage wrapx 1 1
+Key KP_6	A	M	MoveToPage wrapx 2 1
+Key KP_7	A	M	MoveToPage wrapx 0 0
+Key KP_8	A	M	MoveToPage wrapx 1 0
+Key KP_9	A	M	MoveToPage wrapx 2 0
+
+#############################
+#   Colorset
+###############################
+
+Colorset 1 bg #EAE9E9
+Colorset 2 fg black, bg black, sh black, hi black, fgsh black, RootTransparent buffer, Tint #edeceb 50
+Colorset 3 Translucent #EAE9E9 78
+Colorset 4 fg #fff, bg #2e2e2e, sh #dbe4e7, hi #dbe4e7
+Colorset 5 fg Black, Translucent rgb:00/69/69 30, hi White, sh White
+# Colorset 5 fg black, bg white, sh white, fgsh white, VGradient 128 #f1f1f1 #EAE9E9
+Colorset 6 bg #f8f8f8
+Colorset 7 RootTransparent buffer, Tint #EAE9E9 0
+#FvwmPager Colorset
+Colorset 8 fg white, bg white, hi black, \
+        RootTransparent buffer, Tint white 0
+Colorset 9 fg white, bg white, hi black, \
+        RootTransparent buffer, Tint white 20
+Colorset 10 fg black, bg white
+Colorset 11 fg white, bg white, hi white, \
+	    Pixmap  pa_minwinoff.png
+Colorset 12 fg white, bg white, hi white, \
+	    Pixmap  pa_minwinon.png
+
+*FvwmFormDefault: Colorset 1
+*FvwmFormDefault: ItemColorset 2
+
+
+#############################
+#   WindowDecoration
+###############################
+
+##3# DestroyDecor recreate WindowDecoration
+##3# AddToDecor WindowDecoration
+##3# + TitleStyle Height 20 -- flat
+##3# + TitleStyle Active Colorset 1 -- flat
+##3# + TitleStyle Inactive Colorset 5 -- Flat
+##3# + ButtonStyle 1 Active (MiniIcon) Inactive (MiniIcon)
+##3# + ButtonStyle 2 Active (Pixmap close.png) \
+##3#                 Inactive (Pixmap inactive.png) \
+##3# 		AllUp (Pixmap active.png)
+##3# + ButtonStyle 4 Active (Pixmap max.png) \
+##3#                 Inactive (Pixmap inactive.png) \
+##3# 		AllUp (Pixmap active.png)
+##3# + ButtonStyle 6 Active (Pixmap min.png) \
+##3#                 Inactive (Pixmap inactive.png) \
+##3# 		AllUp (Pixmap active.png)
+##3# + ButtonStyle All -- Flat UseTitleStyle
+##3# + BorderStyle -- Flat
+
+DestroyDecor recreate Glassy
+AddToDecor Glassy 
++ TitleStyle LeftJustified Height 18
++ TitleStyle InActive ( Colorset 5 -- Flat ) Active ( Colorset 1 -- Flat ) 
++ AddTitleStyle Active ( TiledPixmap title.png -- Flat )
++ AddTitleStyle Inactive ( TiledPixmap title.png -- Flat )
++ ButtonStyle All InActive ( Colorset 5 -- Flat )
++ ButtonStyle All Active ( Colorset 1 -- Flat )
+
++ AddButtonStyle  1 MiniIcon
+##3# + AddButtonStyle  1 InActive TiledPixmap menu.png -- Flat
++ ButtonStyle 1 Active (MiniIcon) Inactive (MiniIcon)
+
++ AddButtonStyle  2 Active TiledPixmap close-active.png -- Flat
++ AddButtonStyle  2 Inactive TiledPixmap close-inactive.png -- Flat
++ AddButtonStyle  2 ActiveDown (TiledPixmap close-down.png -- Flat)
+
++ AddButtonStyle  4 Active TiledPixmap max-active.png -- Flat
++ AddButtonStyle  4 Inactive TiledPixmap max-inactive.png -- Flat
++ AddButtonStyle  4 ActiveDown (TiledPixmap max-down.png -- Flat)
+
++ AddButtonStyle  6 Active TiledPixmap min-active.png -- Flat
++ AddButtonStyle  6 Inactive TiledPixmap min-inactive.png -- Flat
++ AddButtonStyle  6 Activedown (TiledPixmap min-down.png -- Flat)
+
++ BorderStyle Active ( Colorset 1 -- Flat ) 
++ BorderStyle Inactive ( Colorset 5 -- Flat )
+
+#############################
+#   FvwmButtons
+###############################
+
+DestroyModuleConfig FvwmButtons
+*FvwmButtons: Geometry 48x25+1-2
+*FvwmButtons: Frame 0
+*FvwmButtons: Padding 0 0
+*FvwmButtons: Colorset 7
+*FvwmButtons: (1x1+0+0, Icon arch.png, \
+	PressIcon arch_act.png, \
+	Action(Mouse 1) `Menu MenuFvwmRoot Rectangle +0+490 +0 +0`, \
+	Action(Mouse 3) `Exec urxvtc`)
+
+
+#############################
+#   FvwmPager
+###############################
+
+DestroyModuleConfig FvwmPager
+*FvwmPager: Geometry	    170x140-20-100
+*FvwmPager: BorderWidth	    0
+*FvwmPager: Balloons	    All
+*FvwmPager: SmallFont	    none
+*FvwmPager: Font	    none
+*FvwmPager: BalloonFont	    "StringEncoding=UTF-8:xft:WenQuanYi Zen Hei:size=9:encoding=iso10646-1"
+*FvwmPager: BallonYOffset   +2
+*FvwmPager: WindowBorderWidth 1
+*FvwmPager: WindowLabelFormat ""
+*FvwmPager: MoveThreshold 0
+*FvwmPager: UseSkipList
+*FvwmPager: Rows	    1
+*FvwmPager: Columns	    1
+*FvwmPager: NoSeparators
+*FvwmPager: ShapeLabels
+*FvwmPager: Colorset	    *  8
+*FvwmPager: HilightColorset *  9
+*FvwmPager: BalloonColorset *  10
+*FvwmPager: WindowColorsets 11 12
+
+
+#############################
+#   Menu
+###############################
+
+MenuStyle * MenuColorset 3, ActiveColorset 4
+MenuStyle *	BorderWidth 0, HilightBack, ActiveFore
+MenuStyle *	Hilight3DThickness 0, !Animation
+MenuStyle *	Font "StringEncoding=UTF-8:xft:WenQuanYi Zen Hei:size=10:encoding=iso10646-1"
+MenuStyle *	PopupDelayed, PopupDelay 300, PopdownImmediately, PopupOffset 1 400
+MenuStyle *	TitleUnderlines0, TrianglesSolid
+#MenuStyle * ItemFormat "%.2|%.5i%.5l%.5i%2.3>%2|"
+MenuStyle *	ItemFormat "%s%|%5.i%5.5l%5.5r%.5>%|%i"
+MenuStyle *	VerticalItemSpacing 0, VerticalTitleSpacing 0
+MenuStyle * RoundedCorners, SlightlyRoundedCorners
+
+#############################
+#   genmenu
+###############################
+# + I Read $[FVWM_USERDIR]/AppMenu
+Read AppMenu
+
+DestroyMenu menu_WindowOps
+AddToMenu menu_WindowOps
++ DynamicPopupAction Function WindowOpsFunc
+
+DestroyMenu menu_WindowOpsAdv
+AddToMenu menu_WindowOpsAdv
++ DynamicPopupAction Function WindowOpsFuncAdv
+
+DestroyMenu MenuFvwmRoot
+AddToMenu "MenuFvwmRoot@$[FVWM_USERDIR]/images/menu/menu_side_black.png@"
++ *$[FVWM_USERDIR]/images/menu/menu_up.png* Title
++ "Terminal"%terminal.png%		Exec urxvtc
++ "Rox"%rox.png%		Exec rox
+#+ "Dolphin"%dolphin.png%		Exec dolphin
+#+ "Run.."%run.png%			Exec grun
+
++ ""					Nop
+
++ "&Development%development.png%" Popup "Development"
++ "&Office%doc.png%" Popup "Office"
++ "&Network%internet.png%" Popup "Network"
++ "&Utility%utility.png%" Popup "Utility"
++ "&Multimedia%media.png%" Popup "Multimedia"
++ "Gra&phics%graphics.png%" Popup "Graphics"
++ "&Games%games.png%"		Popup "Games"
++ "&System%system.png%" Popup "System"
++ "&Setting%setting.png%" Popup "Setting"
++ "&Other%other.png%" Popup "Other"
+
++ ""					Nop
++ "Preferences"%preferences.png%	Popup Preferences
++ "Restart Fvwm"%restart.png%		Restart
++ "Quit"%quit.png%			Quit
++ *$[FVWM_USERDIR]/images/menu/menu_down.png* Title
+
+DestroyMenu Preferences
+AddToMenu Preferences 
++ MissingSubmenuFunction ConfigBrowser
++ "Servers"%server.png%			Popup MenuServices
++ "Edit Configs"%doc.png%		Popup MenuEditConfigs
++ "Wallpaper"%wallpaper.png% 		Popup $[walldir] Menu 100 0
++ "Gamma"%theme.png%			Popup MenuGamma
++ "Screenshot"%screenshot.png%       	Popup MenuScreenshot
++ ""					Nop
++ "RebuildMenu"%access.png% 		Function RebuildMenu
++ "FvwmConsole"%terminal.png% 		Module FvwmConsole -terminal urxvt
++ "GTK+ 2.0 theme manager"%theme.png%	Exec gtk-chtheme
++ "Qt-config"%preferences.png% 		Exec qtconfig
+
+AddToMenu MenuServices
++ Mldonkey				Popup MenuMldonkey
++ Vsftpd				Popup MenuVsftpd
++ Sshd					Popup MenuSshd
++ Httpd					Popup MenuHttpd
++ Tor/Privoxy			Popup MenuTor
++ MySQL					Popup MenuMySQL
++ ""					Nop			
++ Conky					Popup MenuConky
++ XscreenSaver          Popup XscreenSaver
++ Tint2					Popup MenuTint2
+# + Xcompmgr				Popup MenuXcompmgr
++ Compton               Popup MenuCompton
+
+AddToMenu MenuMldonkey
++ start				Exec xterm -e su -c "/etc/init.d/mldonkey-server force-start"
++ stop 				Exec xterm -e su -c "/etc/init.d/mldonkey-server stop"
+AddToMenu MenuVsftpd
++ start	  			Exec xterm -e su -c "/etc/init.d/vsftpd start"
++ stop 				Exec xterm -e su -c "/etc/init.d/vsftpd stop"
+AddToMenu MenuHttpd
++ start				Exec xterm -e su -c "/etc/init.d/apache2 start"
++ stop 				Exec xterm -e su -c "/etc/init.d/apache2 stop"
+AddToMenu MenuSshd
++ start				Exec xterm -e su -c "/etc/rc.d/sshd start"
++ stop 				Exec xterm -e su -c "/etc/rc.d/sshd stop"
+AddToMenu MenuTor
++ start				Exec xterm -e su -c "/etc/rc.d/tor start && /etc/rc.d/polipo start"
++ stop 				Exec xterm -e su -c "/etc/rc.d/privoxy stop && /etc/rc.d/tor stop"
+AddToMenu MenuMySQL
++ start				Exec xterm -e su -c "/etc/init.d/mysql start && /etc/init.d/mysql-ndb start && /etc/init.d/mysql-ndb-mgm start"
++ stop				Exec xterm -e su -c "/etc/init.d/mysql stop && /etc/init.d/mysql-ndb stop && /etc/init.d/mysql-ndb-mgm stop"
+AddToMenu XscreenSaver 
++ start		   		Exec /usr/bin/xscreensaver -no-splash &
++ stop   			Exec killall xscreensaver 
+AddToMenu MenuConky
++ start		   		Exec conky -c $[FVWM_USERDIR]/scripts/conkyrc
++ stop   			Exec killall conky
+AddToMenu MenuTint2
++ start		   		Exec tint2 -c $[FVWM_USERDIR]/scripts/tint2rc_black
++ stop   			Exec killall tint2
+# AddToMenu MenuXcompmgr
+AddToMenu MenuCompton
+# + start				Exec compton -b -GCc -r 8 -o .55 -l -12 -t -12 -I .02 -O .02 --dbus --xinerama-shadow-crop -m 1
++ start				Exec compton -cCGfF -o 0.38 -O 200 -I 200 -t 0 -l -6 -r 5 -D2 -m 0.88 --xinerama-shadow-crop
++ stop   			Exec killall compton
+
+AddToMenu MenuEditConfigs
++ "fvwm config"			Exec gvim $FVWM_USERDIR/config
++ "AppMenu"			Exec gvim $FVWM_USERDIR/AppMenu
++ "conkyrc"			Exec gvim $[FVWM_USERDIR]/scripts/conkyrc
++ "clock_rings.lua"			Exec gvim $[FVWM_USERDIR]/scripts/clock_rings.lua
++ "tint2rc"			Exec gvim $[FVWM_USERDIR]/scripts/tint2rc_black
++ ""				Nop		
++ ".startx-errors"		Exec gvim $HOME/.startx-errors
++ "xorg.conf"			Exec gksu gvim /etc/X11/xorg.conf
+
+AddToMenu MenuGamma
++ "Default Gamma"		Exec xgamma -gamma 1
++ "Gamma 2.2"			Exec xgamma -gamma 2.2
+
+AddToMenu MenuScreenshot
++ "Screenshot"			Exec scrot -q 100 screen-%F_%H%M%S.jpg
++ "Screenshot (5s delay)"	Exec sleep 5s && scrot -q 100 screen-%F_%H%M%S.jpg
++ "Screenshot frame"		Exec scrot -b -s -q 100 screen-%F_%H%M%S.jpg

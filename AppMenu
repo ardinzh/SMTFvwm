@@ -1,0 +1,120 @@
+DestroyMenu "Development"
+AddToMenu "Development" 
++ "&Designer%22x22/designer.png%" Exec exec designer
++ "&gVim%22x22/gvim.png%" Exec exec gvim -f 
++ "&Meld%22x22/meld.png%" Exec exec meld 
++ "&Qt Creator%22x22/QtProject-qtcreator.png%" Exec exec qtcreator
++ "&sandbox%22x22/sandbox.png%" Exec exec sandbox
+
+DestroyMenu "System"
+AddToMenu "System" 
++ "&Manage Printing%22x22/cups.png%" Exec exec /usr/bin/xdg-open http://localhost:631/
++ "&Fcitx%22x22/fcitx.png%" Exec exec fcitx
++ "&NVIDIA X Server Settings%22x22/nvidia-drivers-settings.png%" Exec exec /opt/bin/nvidia-settings
++ "&MIME-Editor%22x22/rox-mime-editor.png%" Exec exec rox-mime-editor
++ "&ROX-Filer%22x22/ROX-Filer.png%" Exec exec rox
++ "&rxvt-unicode%22x22/utilities-terminal.png%" Exec exec urxvt
++ "&UXTerm%22x22/xterm-color_48x48.png%" Exec exec uxterm
++ "&Oracle xVM VirtualBox%22x22/virtualbox-bin.png%" Exec exec VirtualBox
++ "&Accessibility%22x22/preferences-desktop-accessibility.png%" Exec exec xfce4-accessibility-settings
++ "&MIME Type Editor%22x22/application-x-executable.png%" Exec exec xfce4-mime-settings
++ "&Log Out%22x22/system-log-out.png%" Exec exec xfce4-session-logout
++ "&Session and Startup%22x22/xfce4-session.png%" Exec exec xfce4-session-settings
++ "&XTerm%22x22/xterm-color_48x48.png%" Exec exec xterm
++ "&K3b%22x22/k3b.png%" Exec exec k3b
+
+DestroyMenu "Office"
+AddToMenu "Office" 
++ "&LibreOffice Base %22x22/libreoffice-base.png%" Exec exec libreoffice --base 
++ "&LibreOffice Calc %22x22/libreoffice-calc.png%" Exec exec libreoffice --calc 
++ "&LibreOffice Draw %22x22/libreoffice-draw.png%" Exec exec libreoffice --draw 
++ "&LibreOffice Impress %22x22/libreoffice-impress.png%" Exec exec libreoffice --impress 
++ "&LibreOffice Math %22x22/libreoffice-math.png%" Exec exec libreoffice --math 
++ "&LibreOffice Writer %22x22/libreoffice-writer.png%" Exec exec libreoffice --writer 
++ "&LibreOffice %22x22/libreoffice-startcenter.png%" Exec exec libreoffice 
++ "&XMind%22x22/xmind.png%" Exec exec xmind 
++ "&Zathura%22x22/unknown.png%" Exec exec zathura 
++ "&Okular%22x22/okular.png%" Exec exec okular %U %i -caption %c
+
+DestroyMenu "Network"
+AddToMenu "Network" 
++ "&Mail Reader%22x22/internet-mail.png%" Exec exec exo-open --launch MailReader
++ "&Web Browser%22x22/web-browser.png%" Exec exec exo-open --launch WebBrowser
++ "&Aurora%22x22/aurora.png%" Exec exec firefox
++ "&Google Chrome %22x22/google-chrome.png%" Exec exec /usr/bin/google-chrome-stable %U
++ "&PuTTY%22x22/putty.png%" Exec exec putty
++ "&vncviewer%22x22/vncviewer.png%" Exec exec vncviewer
+
+DestroyMenu "Utility"
+AddToMenu "Utility" 
++ "&compton%22x22/unknown.png%" Exec exec compton
++ "&File Manager%22x22/system-file-manager.png%" Exec exec exo-open --launch FileManager
++ "&Terminal Emulator%22x22/utilities-terminal.png%" Exec exec exo-open --launch TerminalEmulator
++ "&SpeedCrunch%22x22/speedcrunch.png%" Exec exec speedcrunch
++ "&About Xfce%22x22/help-about.png%" Exec exec xfce4-about
++ "&Application Finder%22x22/unknown.png%" Exec exec xfce4-appfinder
++ "&Run Program...%22x22/unknown.png%" Exec exec xfce4-appfinder --collapsed
++ "&Ark%22x22/ark.png%" Exec exec ark -caption %c
+
+DestroyMenu "Multimedia"
+AddToMenu "Multimedia" 
++ "&qt-recordMyDesktop%22x22/qt-recordmydesktop.png%" Exec exec qt-recordMyDesktop
++ "&SMPlayer%22x22/smplayer.png%" Exec exec smplayer
++ "&VLC media player%22x22/vlc.png%" Exec exec /usr/bin/vlc --started-from-file
++ "&VolWheel%22x22/volwheel.png%" Exec exec volwheel
+
+DestroyMenu "Graphics"
+AddToMenu "Graphics" 
++ "&Dia Diagram Editor%22x22/dia.png%" Exec exec dia 
++ "&Dia Diagram Editor (integrated mode)%22x22/dia.png%" Exec exec dia --integrated 
++ "&FontForge%22x22/fontforge.png%" Exec exec fontforge
++ "&Geeqie%22x22/geeqie.png%" Exec exec geeqie -r 
++ "&Inkscape%22x22/inkscape.png%" Exec exec inkscape 
++ "&MuPDF %22x22/mupdf.png%" Exec exec mupdf 
++ "&XDVI%22x22/xdvik.png%" Exec exec xdvi
++ "&GNU Image Manipulation Program%22x22/gimp.png%" Exec exec gimp-2.8
+
+DestroyMenu "Games"
+AddToMenu "Games" 
++ "&Chinese chess%22x22/gmchess.png%" Exec exec gmchess
++ "&Xfreecell%22x22/games.png%" Exec exec xfreecell
+
+DestroyMenu "Setting"
+AddToMenu "Setting" 
++ "&Preferred Applications%22x22/preferences-desktop-default-applications.png%" Exec exec exo-preferred-applications
++ "&Fcitx Configuration%22x22/fcitx.png%" Exec exec fcitx-configtool
++ "&Adobe Flash Player%22x22/flash-player-properties.png%" Exec exec flash-player-properties
++ "&Panel%22x22/xfce4-panel.png%" Exec exec xfce4-panel --preferences
++ "&Qt Configuration Tool%22x22/qtconfig.png%" Exec exec qtconfig
++ "&Panel tint2%22x22/tint2conf.png%" Exec exec tint2conf
++ "&Settings Editor%22x22/preferences-system.png%" Exec exec xfce4-settings-editor
++ "&Desktop %22x22/preferences-desktop-wallpaper.png%" Exec exec xfdesktop-settings
++ "&Display%22x22/video-display.png%" Exec exec xfce4-display-settings
++ "&Keyboard%22x22/preferences-desktop-keyboard.png%" Exec exec xfce4-keyboard-settings
++ "&Mouse and Touchpad%22x22/preferences-desktop-peripherals.png%" Exec exec xfce4-mouse-settings
++ "&Settings Manager%22x22/preferences-desktop.png%" Exec exec xfce4-settings-manager
++ "&Appearance%22x22/preferences-desktop-theme.png%" Exec exec xfce4-appearance-settings
++ "&Window Manager%22x22/xfwm4.png%" Exec exec xfwm4-settings
++ "&Window Manager Tweaks%22x22/wmtweaks.png%" Exec exec xfwm4-tweaks-settings
++ "&Workspaces%22x22/xfce4-workspaces.png%" Exec exec xfwm4-workspace-settings
++ "&Screensaver%22x22/xscreensaver.png%" Exec exec xscreensaver-demo
+
+DestroyMenu "Other"
+AddToMenu "Other" 
++ "&Add New Program%22x22/zeroinstall.png%" Exec exec 0desktop --
++ "&Manage Programs%22x22/zeroinstall.png%" Exec exec 0desktop --manage
++ "&Help%22x22/help-browser.png%" Exec exec khelpcenter
+
+AddToMenu   + "" Nop
+
++ "&Development%22x22/folder.png%" Popup "Development"
++ "&System%22x22/folder.png%" Popup "System"
++ "&Office%22x22/folder.png%" Popup "Office"
++ "&Network%22x22/folder.png%" Popup "Network"
++ "&Utility%22x22/folder.png%" Popup "Utility"
++ "&Multimedia%22x22/folder.png%" Popup "Multimedia"
++ "&Graphics%22x22/folder.png%" Popup "Graphics"
++ "&Games%22x22/folder.png%" Popup "Games"
++ "&Setting%22x22/folder.png%" Popup "Setting"
++ "&Other%22x22/folder.png%" Popup "Other"
+

@@ -1,0 +1,88 @@
+# Conky settings #
+background yes
+update_interval 1
+
+cpu_avg_samples 2
+net_avg_samples 2
+
+override_utf8_locale yes
+
+double_buffer yes
+no_buffers yes
+
+text_buffer_size 2048
+imlib_cache_size 2
+
+# temperature_unit fahrenheit
+temperature_unit celsius
+
+# Window specifications #
+
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+
+border_inner_margin 0
+border_outer_margin 0
+
+minimum_size 200 250
+maximum_width 200
+
+# alignment tr
+# X = 1024 - 215, Y = 768 - 646
+gap_x 1705
+gap_y 386
+
+# Graphics settings #
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+# Text settings #
+use_xft yes
+xftfont Bitstream Vera Sans Mono:size=8
+xftalpha 0.5
+
+uppercase no
+
+default_color FFFFFF
+
+# Lua Load  #
+lua_load ~/.fvwm/scripts/clock_rings.lua
+lua_draw_hook_pre clock_rings
+
+TEXT
+### 年,月
+${voffset -12}${color 3399FF}${font Georgia:size=32}${time %Y}${font}${voffset -20}${font 文泉驿等宽微米黑:size=24}年${font}
+### 月
+${voffset -2}${alignr 126}${font 文泉驿等宽微米黑:size=28}${time %b}${font}
+### 日
+${voffset -36}${alignr 42}${color FFFFFF}${font Georgia:size=26}${time %e}${voffset -12}${font}
+###${color 3399FF}${font 文泉驿等宽微米黑:size=20}日${font}
+### 星期
+${voffset 2}${color FFFFFF}${font 文泉驿等宽微米黑:size=16}${time %A}${font}
+### 日期下面的下划线。
+### ${goto 92}${voffset -32}${color 3399FF}${font 文泉驿等宽微米黑:size=20}${time %b}${font}${voffset 12}${color 3399FF}${hr}
+${goto 138}${voffset -18}${color 3399FF}${hr}
+${voffset 124}${font Trebuchet MS:size=12}${color FFFFFF}${alignr}${hwmon temp 2}°C${font}
+### ${color 3399FF}${voffset 6}${sysname}${alignr}${kernel}${machine}
+Uptime:$alignr${color FFFFFF}$uptime_short
+${voffset -6}${color FFFF33}${hr}
+${color FFFFFF}${goto 22}${voffset 28}${cpu cpu0}%${cpu cpu2}%
+${color 3399FF}${goto 25}CPU0
+${color FFFFFF}${goto 74}${voffset -26}${cpu cpu1}%${cpu cpu3}%
+${color 3399FF}${goto 77}CPU1
+${color FFFFFF}${goto 50}${voffset 24}${memperc}%
+${color 3399FF}${goto 50}RAM
+${color FFFFFF}${goto 75}${voffset 24}${swapperc}%
+${color 3399FF}${goto 75}SWAP
+${color FFFFFF}${goto 100}${voffset 24}${fs_used_perc /home}%
+${color 3399FF}${goto 100}Home
+${color FFFFFF}${goto 75}${voffset 26}${font 文泉驿等宽微米黑:size=8}↑${font}${upspeed enp2s0}
+${color FFFFFF}${goto 75}${font 文泉驿等宽微米黑:size=8}↓${font}${downspeed enp2s0}
+${color 3399FF}${goto 75}NetOne
+${color FFFFFF}${goto 127}${voffset -40}${font 文泉驿等宽微米黑:size=8}↑${font}${upspeed enp5s2}
+${color FFFFFF}${goto 127}${font 文泉驿等宽微米黑:size=8}↓${font}${downspeed enp5s2}
+${color 3399FF}${goto 127}NetTwo

@@ -6,9 +6,6 @@ AppMenu=${1}
 spath=${HOME}/.fvwm/scripts
 menuHead=${HOME}/.fvwm/apps/AppMenu_Head
 menuTail=${HOME}/.fvwm/apps/AppMenu_Tail
-#menuHead=${spath}/AppMenu_Head
-#menuTail=${spath}/AppMenu_Tail
-# createicon=${spath}/createicon
 
 catagories="Development Office Graphics Network Multimedia Game Utility System Setting Windows Other"
 desktoplist="/usr/share/applications/*.desktop /usr/share/applications/kde4/*.desktop ${HOME}/.local/share/applications/*.desktop"

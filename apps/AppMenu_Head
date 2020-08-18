@@ -40,10 +40,10 @@ AddToMenu XscreenSaver
 + start		   		Exec exec /usr/bin/xscreensaver -no-splash &
 + stop   			Exec exec killall xscreensaver 
 AddToMenu MenuConky
-+ start		   		Exec exec conky -c $[infostore.eAppConfig]/conky/conkyrc
++ start		   		Exec exec conky -c $[HOME]/.config/conky/conkyrc
 + stop   			Exec exec killall conky
 AddToMenu MenuTint2
-+ start		   		Exec exec tint2 -c $[infostore.eAppConfig]/tint2/tint2rc
++ start		   		Exec exec tint2 -c $[HOME]/.config/tint2/tint2rc
 + stop   			Exec exec killall tint2
 AddToMenu MenuCompton
 # + start				Exec exec compton -b -GCc -r 8 -o .55 -l -12 -t -12 -I .02 -O .02 --dbus --xinerama-shadow-crop -m 1
@@ -54,11 +54,11 @@ AddToMenu MenuEditConfigs
 + "Fvwm_config"	    Exec exec gvim $[infostore.mHome]/config
 + "Starts"			Exec exec gvim $[infostore.mApps]/Starts
 + "AppMenu"			Exec exec gvim $[infostore.mApps]/AppMenu
-+ "AppMenu_Head"	Exec exec gvim $[infostore.mApps]/AppMenu_Head
-+ "AppMenu_Tail"	Exec exec gvim $[infostore.mApps]/AppMenu_Tail
-+ "conkyrc"			Exec exec gvim $[infostore.eAppConfig]/conky/conkyrc
-+ "clock_rings.lua"	Exec exec gvim $[infostore.eAppConfig]/tint2/clock_rings.lua
-+ "tint2rc"			Exec exec gvim $[infostore.eAppConfig]/tint2/tint2rc
++ "AppMenu_Head"	Exec exec gvim $[infostore.mScripts]/AppMenu_Head
++ "AppMenu_Tail"	Exec exec gvim $[infostore.mScripts]/AppMenu_Tail
++ "conkyrc"			Exec exec gvim $[HOME]/.config/conky/conkyrc
++ "clock_rings.lua"	Exec exec gvim $[HOME]/.config/tint2/clock_rings.lua
++ "tint2rc"			Exec exec gvim $[HOME]/.config/tint2/tint2rc
 + ""				Nop		
 + ".startx-errors"	Exec exec gvim $[HOME]/.startx-errors
 + "xorg.conf"		Exec exec gksu gvim /etc/X11/xorg.conf

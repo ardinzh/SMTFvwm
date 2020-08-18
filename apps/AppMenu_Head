@@ -1,0 +1,88 @@
+#############################
+#   Menu_Head
+###############################
+
+DestroyMenu Preferences
+AddToMenu Preferences 
++ MissingSubmenuFunction	            ConfigBrowser
++ "Servers"%server.png%	                Popup MenuServices
++ "Edit Configs"%doc.png%	            Popup MenuEditConfigs
++ "Wallpaper"%wallpaper.png% 		    Popup $[infostore.mWallpapers] Menu 100 0
++ "Gamma"%theme.png%	                Popup MenuGamma
++ "Screenshot"%screenshot.png%	        Popup MenuScreenshot
++ ""	                                Nop
++ "RebuildMenu"%access.png%	            Function RebuildMenu
++ "FvwmConsole"%terminal.png%	        Module FvwmConsole -terminal urxvt
++ "GTK+ 2.0 theme manager"%theme.png%	Exec exec gtk-chtheme
++ "Qt-config"%preferences.png%	        Exec exec qtconfig
+
+AddToMenu MenuServices
++ TeamViewer		    Popup MenuTeamViewer
++ Tor/Privoxy			Popup MenuTor
++ MySQL					Popup MenuMySQL
++ ""					Nop			
++ Conky					Popup MenuConky
++ XscreenSaver          Popup XscreenSaver
++ Tint2					Popup MenuTint2
++ Compton               Popup MenuCompton
+
+AddToMenu MenuTeamViewer
++ start				Exec exec sudo /etc/init.d/teamviewerd start
++ stop				Exec exec sudo /etc/init.d/teamviewerd stop
++ restart		    Exec exec sudo /etc/init.d/teamviewerd restart
+AddToMenu MenuTor
++ start				Exec exec xterm -e su -c "/etc/rc.d/tor start && /etc/rc.d/polipo start"
++ stop 				Exec exec xterm -e su -c "/etc/rc.d/privoxy stop && /etc/rc.d/tor stop"
+AddToMenu MenuMySQL
++ start				Exec exec xterm -e su -c "/etc/init.d/mysql start && /etc/init.d/mysql-ndb start && /etc/init.d/mysql-ndb-mgm start"
++ stop				Exec exec xterm -e su -c "/etc/init.d/mysql stop && /etc/init.d/mysql-ndb stop && /etc/init.d/mysql-ndb-mgm stop"
+AddToMenu XscreenSaver 
++ start		   		Exec exec /usr/bin/xscreensaver -no-splash &
++ stop   			Exec exec killall xscreensaver 
+AddToMenu MenuConky
++ start		   		Exec exec conky -c $[infostore.eAppConfig]/conky/conkyrc
++ stop   			Exec exec killall conky
+AddToMenu MenuTint2
++ start		   		Exec exec tint2 -c $[infostore.eAppConfig]/tint2/tint2rc
++ stop   			Exec exec killall tint2
+AddToMenu MenuCompton
+# + start				Exec exec compton -b -GCc -r 8 -o .55 -l -12 -t -12 -I .02 -O .02 --dbus --xinerama-shadow-crop -m 1
++ start				Exec exec compton -cCGfF -o 0.38 -O 200 -I 200 -t 0 -l -6 -r 5 -D2 -m 0.88 --xinerama-shadow-crop
++ stop   			Exec exec killall compton
+
+AddToMenu MenuEditConfigs
++ "Fvwm_config"	    Exec exec gvim $[infostore.mHome]/config
++ "Starts"			Exec exec gvim $[infostore.mApps]/Starts
++ "AppMenu"			Exec exec gvim $[infostore.mApps]/AppMenu
++ "AppMenu_Head"	Exec exec gvim $[infostore.mApps]/AppMenu_Head
++ "AppMenu_Tail"	Exec exec gvim $[infostore.mApps]/AppMenu_Tail
++ "conkyrc"			Exec exec gvim $[infostore.eAppConfig]/conky/conkyrc
++ "clock_rings.lua"	Exec exec gvim $[infostore.eAppConfig]/tint2/clock_rings.lua
++ "tint2rc"			Exec exec gvim $[infostore.eAppConfig]/tint2/tint2rc
++ ""				Nop		
++ ".startx-errors"	Exec exec gvim $[HOME]/.startx-errors
++ "xorg.conf"		Exec exec gksu gvim /etc/X11/xorg.conf
+
+AddToMenu MenuGamma
++ "Default Gamma"	Exec exec xgamma -gamma 1
++ "Gamma 2.2"		Exec exec xgamma -gamma 2.2
+
+AddToMenu MenuScreenshot
++ "Screenshot"		    	Exec exec scrot -q 100 screen-%F_%H%M%S.jpg
++ "Screenshot (5s delay)"	Exec exec sleep 5s && scrot -q 100 screen-%F_%H%M%S.jpg
++ "Screenshot frame"		Exec exec scrot -b -s -q 100 screen-%F_%H%M%S.jpg
+
+#   Menu_System_end
+
+DestroyMenu MenuFvwmRoot
+AddToMenu "MenuFvwmRoot@$[infostore.mArtwork]/decors/menu_side_black.png@"
++ *$[infostore.mArtwork]/decors/menu_up.png*	    Title
++ "Terminal"%terminal.png%		                Exec exec urxvtc
++ "FileManager"%rox.png%                        Exec exec rox
++ "WebBrowser"%network.png%                     Exec exec chromium-browser
+#+ "Run.."%run.png%			                    Exec exec grun
++ ""					                        Nop
+
+#############################
+#   Menu_Head_end
+###############################

@@ -1,68 +1,138 @@
 #!/bin/bash
 menutmp=/tmp/fvwmmenu
-tmpitem=$menutmp/item
+tmpitem=${menutmp}/item
+AppMenu=${1}
+# spath=$(cd `dirname $0` && pwd)
+spath=${HOME}/.fvwm/scripts
+menuHead=${HOME}/.fvwm/apps/AppMenu_Head
+menuTail=${HOME}/.fvwm/apps/AppMenu_Tail
+#menuHead=${spath}/AppMenu_Head
+#menuTail=${spath}/AppMenu_Tail
+# createicon=${spath}/createicon
 
-catagories="Development System Office Network Utility Multimedia Games Graphics Setting Windows Other"
+catagories="Development Office Graphics Network Multimedia Game Utility System Setting Windows Other"
+desktoplist="/usr/share/applications/*.desktop /usr/share/applications/kde4/*.desktop ${HOME}/.local/share/applications/*.desktop"
 
+createicon()
+{
+    sysicondir="/usr/share/pixmaps /usr/share/icons /usr/local/share/pixmaps /usr/local/share/icons $HOME/.local/share/icons $HOME/.icons"
+    iconsize="22x22"
+    menuicondir="$HOME/.fvwm/artwork/icons/$iconsize"
+    iconcount="/tmp/fvwmmenu/updatemenu"
+
+    com="${2##*/}"
+    if ! [ -d $menuicondir ]
+    then
+        mkdir -p $menuicondir
+    fi
+
+    if ! [ -s ${iconcount} ]
+    then
+        # find $sysicondir $usricondir -path "*16x16" -prune -o -type f -iname "*.*" -print > ${iconcount}
+        find $sysicondir -path "*16x16" -prune -o -type f -iname "*.*" -print > ${iconcount}
+    fi
+
+    if [ "$1" == "" ]
+    then
+        icon=$com
+    else
+        icon="${1##*/}"
+        icon="${icon%.*}"
+    fi
+    if ! [ -f "$menuicondir/$icon.png" ] 
+    then
+        file="`grep -F "${icon}." ${iconcount}`"
+        file="${file%%
+*}"
+        if [ "$file" == "" ]
+        then
+            [ "$com" != folder ] && echo -n %"$iconsize/unknown.png"% || echo -n %"$iconsize/folder.png"%
+            exit
+        fi
+        convert "$file" -resize $iconsize "$menuicondir/$icon.png"
+    fi
+    echo -n %"$iconsize/$icon.png"%
+}
+
+#__main()__
 mkdir -p /tmp/fvwmmenu
-echo -n > $HOME/.fvwm/AppMenu
+echo -n > ${AppMenu}
 
-for menu in $catagories
+for menu in ${catagories}
 do
-	(echo  "DestroyMenu \"$menu\""
-	echo "AddToMenu \"$menu\" ") >$menutmp/$menu
+	(echo  "DestroyMenu \"${menu}\""
+	echo "AddToMenu \"${menu}\" ") >${menutmp}/${menu}
 done
 
-for item in /usr/share/applications/*.desktop /usr/local/share/applications/*.desktop ~/.gnome2/vfolders/applications/*.desktop /usr/share/applications/kde4/*.desktop
+for item in ${desktoplist}
 do
-	if [ -f $item ]
-	then
-		grep -q "^NoDisplay=[Tt]rue" $item && continue
-		iconv -f utf-8 -o $tmpitem "$item"
-		exe="`sed -n "s/^Exec=//p" $tmpitem`"
+    if [ -f "${item}" ]
+    then
+        # 不处理的
+		grep -q "^NoDisplay=[Tt]rue" "${item}" && continue
+		grep -q "^OnlyShowIn=XFCE" "${item}" && continue
+
+		iconv -f utf-8 -o ${tmpitem} "${item}"
+		exe="`sed -n "s/%F//;s/^Exec=//p" ${tmpitem} | head -n 1`"
 		[ "$exe" == "" ] && continue
 		exe="${exe#\"}"
 		exe="${exe%\"}"
-		exe="${exe% \%[uU]}"
+		exe="${exe% \%[uUfF]}"
 		bexe="${exe#/}"
 		if [ "$bexe" == "$exe" ] 
 		then
+            # 分割PATH，在每个路径下找执行文件。
 			exepath="`find -L ${PATH//:/ } -maxdepth 1 -type f -name ${exe%% *} 2>/dev/null`"
-		elif [ -f ${exe%% *} ] 
+        elif [ -f ${exe%% *} ] 
 		then 
 			exepath="${exe%% *}" 
 		else
-			echo $item>>missing
+			echo "${item}">>missing
 			continue
 		fi
-		[ "$exepath" == "" ] && echo $item>> missing && continue
+		[ "${exepath}" == "" ] && echo "${item}">> missing && continue
 		menu=Other
-		for cata in $catagories
+		for cata in ${catagories}
 		do
-			[ "$cata" == Multimedia ] && aa=Audio || aa=$cata
-			grep -q "^Categories=.*$aa" $tmpitem&& menu=$cata && break
+			[ "${cata}" == Multimedia ] && aa=Audio || aa=${cata}
+			grep -q "^Categories=.*${aa}" ${tmpitem}&& menu=${cata} && break
 		done
-		icon="`sed -n "s/^Icon=//p" $tmpitem`"
-		name="`sed -n "s/^Name=//p" $tmpitem`"
-		echo "+ \"&$name`$HOME/.fvwm/scripts/createicon "$icon" $exe`\" Exec exec $exe" >> $menutmp/$menu
+		icon="`sed -n "s/^Icon=//p" ${tmpitem}`"
+		name="`sed -n "s/^Name=//p" ${tmpitem} | head -n 1`"
+		# echo "+ \"&${name}`${createicon} "${icon}" ${exe}`\" Exec exec ${exe}" >> ${menutmp}/${menu}
+		iconname=$(createicon "${icon}" ${exe})
+		echo "+ \"&${name}${iconname}\" Exec exec ${exe}" >> ${menutmp}/${menu}
 	fi
 done
 
-#appmenu="DestroyMenu \"Applications\"
-#AddToMenu   \"Applications\" \"Applications\" Title Top
 appmenu="
 AddToMenu   + \"\" Nop
 
 "
-for menu in $catagories
+# 子菜单
+for menu in ${catagories}
 do
-	if ! tail -n 1 $menutmp/$menu | grep -q "^AddToMenu"
+	if ! tail -n 1 ${menutmp}/${menu} | grep -q "^AddToMenu"
 	then
-		cat $menutmp/$menu >> $HOME/.fvwm/AppMenu
-		echo >>$HOME/.fvwm/AppMenu
-		appmenu=$appmenu"+ \"&$menu`$HOME/.fvwm/scripts/createicon "$menu" "folder"`\" Popup \"$menu\"
+ 		cat ${menutmp}/${menu} >> ${AppMenu}
+ 		echo >>${AppMenu}
+	fi
+done
+
+# 第一级菜单
+appmenu=""
+for menu in ${catagories}
+do
+	if ! tail -n 1 ${menutmp}/${menu} | grep -q "^AddToMenu"
+	then
+    appmenuicon=`echo ${menu} | awk '{print tolower($0)}'`
+    appmenu=$appmenu"+ \"&${menu}%${appmenuicon}.png%\" Popup \"${menu}\"
 "
 	fi
 done
-echo "$appmenu" >> $HOME/.fvwm/AppMenu
-rm -fr $menutmp
+
+cat ${menuHead} >> ${AppMenu}
+echo "$appmenu" >> ${AppMenu}
+rm -fr ${menutmp}
+cat ${menuTail} >>  ${AppMenu}
+

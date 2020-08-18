@@ -1,0 +1,12 @@
+#############################
+#   Menu_Tail
+###############################
++ ""					Nop
++ "Preferences"%preferences.png%	Popup Preferences
++ "Restart Fvwm"%restart.png%		Restart
++ "Quit"%quit.png%			Quit
++ *$[infostore.mArtwork]/decors/menu_down.png*	    Title
+
+#############################
+#   Menu_Tail_end
+###############################

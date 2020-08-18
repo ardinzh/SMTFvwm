@@ -1,0 +1,216 @@
+DestroyMenu "Development"
+AddToMenu "Development" 
++ "&FLUID%22x22/fluid.png%" Exec exec fluid 
++ "&Meld%22x22/org.gnome.png%" Exec exec meld 
++ "&PyAlaMode (3.0)%22x22/PyCrust-3.png%" Exec exec pyalamode-3.0
++ "&pycharm-community%22x22/pycharm-community.png%" Exec exec pycharm-community
++ "&PyCrust (3.0)%22x22/PyCrust-3.png%" Exec exec pycrust-3.0
++ "&PyShell (3.0)%22x22/PyCrust-3.png%" Exec exec pyshell-3.0
++ "&sandbox%22x22/sandbox.png%" Exec exec sandbox
++ "&XRCed (3.0)%22x22/XRCed-3.png%" Exec exec xrced-3.0
+
+DestroyMenu "Office"
+AddToMenu "Office" 
++ "&LibreOffice Base%22x22/libreoffice-base
+libreoffice-document-new.png%" Exec exec libreoffice --base
++ "&LibreOffice Calc%22x22/libreoffice-calc
+libreoffice-document-new.png%" Exec exec libreoffice --calc
++ "&LibreOffice Draw%22x22/libreoffice-draw
+libreoffice-document-new.png%" Exec exec libreoffice --draw
++ "&LibreOffice Impress%22x22/libreoffice-impress
+libreoffice-document-new.png%" Exec exec libreoffice --impress
++ "&LibreOffice Math%22x22/libreoffice-math
+libreoffice-document-new.png%" Exec exec libreoffice --math
++ "&LibreOffice%22x22/libreoffice-startcenter.png%" Exec exec libreoffice
++ "&LibreOffice Writer%22x22/libreoffice-writer
+libreoffice-document-new.png%" Exec exec libreoffice --writer
++ "&Okular%22x22/okular.png%" Exec exec okular
+
+DestroyMenu "Graphics"
+AddToMenu "Graphics" 
++ "&Dia Diagram Editor%22x22/dia.png%" Exec exec dia 
++ "&Dia Diagram Editor (integrated mode)%22x22/dia.png%" Exec exec dia --integrated 
++ "&Geeqie%22x22/geeqie.png%" Exec exec geeqie -r 
++ "&Inkscape%22x22/inkscape.png%" Exec exec inkscape 
++ "&MuPDF%22x22/mupdf.png%" Exec exec mupdf
++ "&FontForge%22x22/org.fontforge.png%" Exec exec fontforge
++ "&GNU Image Manipulation Program%22x22/gimp.png%" Exec exec gimp-2.10
+
+DestroyMenu "Network"
+AddToMenu "Network" 
++ "&Chromium%22x22/chromium-browser.png%" Exec exec chromium-browser
++ "&Mozilla Firefox%22x22/firefox.png%" Exec exec firefox
++ "&Opera%22x22/opera.png%" Exec exec opera
++ "&Remmina%22x22/org.remmina.png%" Exec exec remmina-file-wrapper
++ "&PuTTY%22x22/putty.png%" Exec exec putty
++ "&Spicy%22x22/utilities-terminal.png%" Exec exec spicy
++ "&Vivaldi%22x22/vivaldi.png%" Exec exec /usr/bin/vivaldi-stable
++ "&TigerVNC Viewer%22x22/tigervnc.png%" Exec exec /usr/bin/vncviewer
++ "&X11VNC Server%22x22/computer.png%" Exec exec x11vnc -gui tray=setpass -rfbport PROMPT -bg -o %%HOME/.x11vnc.log.%%VNCDISPLAY
+
+DestroyMenu "Multimedia"
+AddToMenu "Multimedia" 
++ "&Hwmixvolume%22x22/hwmixvolume.png%" Exec exec hwmixvolume
++ "&K3b%22x22/k3b.png%" Exec exec k3b
++ "&Phonon Audio and Video%22x22/preferences-desktop-sound.png%" Exec exec phononsettings
++ "&PNMixer%22x22/pnmixer.png%" Exec exec pnmixer
++ "&VLC media player%22x22/vlc.png%" Exec exec /usr/bin/vlc --started-from-file
+
+DestroyMenu "Game"
+AddToMenu "Game" 
++ "&DOSBox%22x22/dosbox.png%" Exec exec dosbox
++ "&PlayOnLinux%22x22/playonlinux.png%" Exec exec playonlinux
+
+DestroyMenu "Utility"
+AddToMenu "Utility" 
++ "&compton%22x22/unknown.png%" Exec exec compton
++ "&Fcitx%22x22/fcitx.png%" Exec exec fcitx
++ "&GVim%22x22/gvim.png%" Exec exec gvim -f 
++ "&Ark%22x22/ark.png%" Exec exec ark
++ "&SpeedCrunch%22x22/speedcrunch.png%" Exec exec speedcrunch
++ "&Bulk Rename%22x22/Thunar.png%" Exec exec /usr/lib64/Thunar/ThunarBulkRename 
++ "&Thunar File Manager%22x22/Thunar.png%" Exec exec thunar 
++ "&Tilda%22x22/tilda.png%" Exec exec /usr/bin/tilda
++ "&Vim%22x22/gvim.png%" Exec exec vim 
++ "&Application Finder%22x22/edit-find.png%" Exec exec xfce4-appfinder
+
+DestroyMenu "System"
+AddToMenu "System" 
++ "&Manage Printing%22x22/cups.png%" Exec exec /usr/bin/xdg-open http://localhost:631/
++ "&Rox-Filer%22x22/unknown.png%" Exec exec rox
++ "&Tint2%22x22/tint2.png%" Exec exec tint2
++ "&rxvt-unicode%22x22/utilities-terminal.png%" Exec exec urxvt
++ "&UXTerm%22x22/xterm-color_48x48.png%" Exec exec uxterm
++ "&Virtual Machine Manager%22x22/virt-manager.png%" Exec exec virt-manager
++ "&Oracle xVM VirtualBox%22x22/virtualbox-bin.png%" Exec exec VirtualBox
++ "&Xfce Terminal%22x22/utilities-terminal.png%" Exec exec xfce4-terminal
++ "&XTerm%22x22/xterm-color_48x48.png%" Exec exec xterm
+
+DestroyMenu "Setting"
+AddToMenu "Setting" 
++ "&ARandR%22x22/display.png%" Exec exec arandr
++ "&Fcitx Configuration%22x22/fcitx.png%" Exec exec fcitx-configtool
++ "&File Manager Settings%22x22/system-file-manager.png%" Exec exec thunar-settings
++ "&Removable Drives and Media%22x22/drive-removable-media.png%" Exec exec thunar-volman-settings
++ "&Tint2 Settings%22x22/tint2conf.png%" Exec exec tint2conf
++ "&Xfce Terminal%22x22/utilities-terminal.png%" Exec exec xfce4-terminal --preferences
++ "&Screensaver%22x22/xscreensaver.png%" Exec exec xscreensaver-demo
+
+DestroyMenu "Other"
+AddToMenu "Other" 
++ "&Browse C: Drive%22x22/folder-wine.png%" Exec exec xdg-open .wine/dosdevices/c:
++ "&Notepad%22x22/wine-notepad.png%" Exec exec notepad
++ "&Uninstall Wine Software%22x22/wine-uninstaller.png%" Exec exec wine uninstaller
++ "&Configure Wine%22x22/wine-winecfg.png%" Exec exec winecfg
+
+#############################
+#   Menu_Head
+###############################
+
+DestroyMenu Preferences
+AddToMenu Preferences 
++ MissingSubmenuFunction	            ConfigBrowser
++ "Servers"%server.png%	                Popup MenuServices
++ "Edit Configs"%doc.png%	            Popup MenuEditConfigs
++ "Wallpaper"%wallpaper.png% 		    Popup $[infostore.mWallpapers] Menu 100 0
++ "Gamma"%theme.png%	                Popup MenuGamma
++ "Screenshot"%screenshot.png%	        Popup MenuScreenshot
++ ""	                                Nop
++ "RebuildMenu"%access.png%	            Function RebuildMenu
++ "FvwmConsole"%terminal.png%	        Module FvwmConsole -terminal urxvt
++ "GTK+ 2.0 theme manager"%theme.png%	Exec exec gtk-chtheme
++ "Qt-config"%preferences.png%	        Exec exec qtconfig
+
+AddToMenu MenuServices
++ TeamViewer		    Popup MenuTeamViewer
++ Tor/Privoxy			Popup MenuTor
++ MySQL					Popup MenuMySQL
++ ""					Nop			
++ Conky					Popup MenuConky
++ XscreenSaver          Popup XscreenSaver
++ Tint2					Popup MenuTint2
++ Compton               Popup MenuCompton
+
+AddToMenu MenuTeamViewer
++ start				Exec exec sudo /etc/init.d/teamviewerd start
++ stop				Exec exec sudo /etc/init.d/teamviewerd stop
++ restart		    Exec exec sudo /etc/init.d/teamviewerd restart
+AddToMenu MenuTor
++ start				Exec exec xterm -e su -c "/etc/rc.d/tor start && /etc/rc.d/polipo start"
++ stop 				Exec exec xterm -e su -c "/etc/rc.d/privoxy stop && /etc/rc.d/tor stop"
+AddToMenu MenuMySQL
++ start				Exec exec xterm -e su -c "/etc/init.d/mysql start && /etc/init.d/mysql-ndb start && /etc/init.d/mysql-ndb-mgm start"
++ stop				Exec exec xterm -e su -c "/etc/init.d/mysql stop && /etc/init.d/mysql-ndb stop && /etc/init.d/mysql-ndb-mgm stop"
+AddToMenu XscreenSaver 
++ start		   		Exec exec /usr/bin/xscreensaver -no-splash &
++ stop   			Exec exec killall xscreensaver 
+AddToMenu MenuConky
++ start		   		Exec exec conky -c $[infostore.eAppConfig]/conky/conkyrc
++ stop   			Exec exec killall conky
+AddToMenu MenuTint2
++ start		   		Exec exec tint2 -c $[infostore.eAppConfig]/tint2/tint2rc
++ stop   			Exec exec killall tint2
+AddToMenu MenuCompton
+# + start				Exec exec compton -b -GCc -r 8 -o .55 -l -12 -t -12 -I .02 -O .02 --dbus --xinerama-shadow-crop -m 1
++ start				Exec exec compton -cCGfF -o 0.38 -O 200 -I 200 -t 0 -l -6 -r 5 -D2 -m 0.88 --xinerama-shadow-crop
++ stop   			Exec exec killall compton
+
+AddToMenu MenuEditConfigs
++ "Fvwm_config"	    Exec exec gvim $[infostore.mHome]/config
++ "Starts"			Exec exec gvim $[infostore.mApps]/Starts
++ "AppMenu"			Exec exec gvim $[infostore.mApps]/AppMenu
++ "AppMenu_Head"	Exec exec gvim $[infostore.mApps]/AppMenu_Head
++ "AppMenu_Tail"	Exec exec gvim $[infostore.mApps]/AppMenu_Tail
++ "conkyrc"			Exec exec gvim $[infostore.eAppConfig]/conky/conkyrc
++ "clock_rings.lua"	Exec exec gvim $[infostore.eAppConfig]/tint2/clock_rings.lua
++ "tint2rc"			Exec exec gvim $[infostore.eAppConfig]/tint2/tint2rc
++ ""				Nop		
++ ".startx-errors"	Exec exec gvim $[HOME]/.startx-errors
++ "xorg.conf"		Exec exec gksu gvim /etc/X11/xorg.conf
+
+AddToMenu MenuGamma
++ "Default Gamma"	Exec exec xgamma -gamma 1
++ "Gamma 2.2"		Exec exec xgamma -gamma 2.2
+
+AddToMenu MenuScreenshot
++ "Screenshot"		    	Exec exec scrot -q 100 screen-%F_%H%M%S.jpg
++ "Screenshot (5s delay)"	Exec exec sleep 5s && scrot -q 100 screen-%F_%H%M%S.jpg
++ "Screenshot frame"		Exec exec scrot -b -s -q 100 screen-%F_%H%M%S.jpg
+
+#   Menu_System_end
+
+DestroyMenu MenuFvwmRoot
+AddToMenu "MenuFvwmRoot@$[infostore.mArtwork]/decors/menu_side_black.png@"
++ *$[infostore.mArtwork]/decors/menu_up.png*	    Title
++ "Terminal"%terminal.png%		                Exec exec urxvtc
++ "FileManager"%rox.png%                        Exec exec rox
++ "WebBrowser"%network.png%                     Exec exec chromium-browser
+#+ "Run.."%run.png%			                    Exec exec grun
++ ""					                        Nop
+
+#############################
+#   Menu_Head_end
+###############################
++ "&Development%development.png%" Popup "Development"
++ "&Office%office.png%" Popup "Office"
++ "&Graphics%graphics.png%" Popup "Graphics"
++ "&Network%network.png%" Popup "Network"
++ "&Multimedia%multimedia.png%" Popup "Multimedia"
++ "&Game%game.png%" Popup "Game"
++ "&Utility%utility.png%" Popup "Utility"
++ "&System%system.png%" Popup "System"
++ "&Setting%setting.png%" Popup "Setting"
++ "&Other%other.png%" Popup "Other"
+
+#############################
+#   Menu_Tail
+###############################
++ ""					Nop
++ "Preferences"%preferences.png%	Popup Preferences
++ "Restart Fvwm"%restart.png%		Restart
++ "Quit"%quit.png%			Quit
++ *$[infostore.mArtwork]/decors/menu_down.png*	    Title
+
+#############################
+#   Menu_Tail_end
+###############################

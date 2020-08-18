@@ -1,5 +1,5 @@
 #!/bin/bash
-menutmp=/tmp/fvwmmenu
+menutmp=/tmp/fvwm_${USER}/fvwmmenu
 tmpitem=${menutmp}/item
 AppMenu=${1}
 # spath=$(cd `dirname $0` && pwd)

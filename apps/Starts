@@ -1,5 +1,5 @@
 habak -ms $[infostore.mWallpapers]
-tint2 -c $[HOME]/.config/tint2/tint2rc
+tint2 -c $[infostore.eAppConfig]/tint2/tint2rc
 pnmixer
 urxvtd
 udiskie -f rox
@@ -8,4 +8,4 @@ tilda
 remmina -i
 compton -cCGfF -o 0.38 -e 200 -I 200 -t 0 -l -6 -r 5 -D2 -m 0.88 --xinerama-shadow-crop
 sleep 5
-conky -c $[HOME]/.config/conky/conkyrc
+conky -c $[infostore.eAppConfig]/conky/conkyrc

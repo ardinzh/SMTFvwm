@@ -31,9 +31,9 @@ AddToMenu "Graphics"
 + "&Dia Diagram Editor%22x22/dia.png%" Exec exec dia 
 + "&Dia Diagram Editor (integrated mode)%22x22/dia.png%" Exec exec dia --integrated 
 + "&Geeqie%22x22/geeqie.png%" Exec exec geeqie -r 
-+ "&Inkscape%22x22/inkscape.png%" Exec exec inkscape 
 + "&MuPDF%22x22/mupdf.png%" Exec exec mupdf
 + "&FontForge%22x22/org.fontforge.png%" Exec exec fontforge
++ "&Inkscape%22x22/org.inkscape.png%" Exec exec inkscape 
 + "&GNU Image Manipulation Program%22x22/gimp.png%" Exec exec gimp-2.10
 
 DestroyMenu "Network"
@@ -54,6 +54,7 @@ AddToMenu "Multimedia"
 + "&K3b%22x22/k3b.png%" Exec exec k3b
 + "&Phonon Audio and Video%22x22/preferences-desktop-sound.png%" Exec exec phononsettings
 + "&PNMixer%22x22/pnmixer.png%" Exec exec pnmixer
++ "&SimpleScreenRecorder%22x22/simplescreenrecorder.png%" Exec exec simplescreenrecorder --logfile
 + "&VLC media player%22x22/vlc.png%" Exec exec /usr/bin/vlc --started-from-file
 
 DestroyMenu "Game"
@@ -156,17 +157,17 @@ AddToMenu MenuCompton
 + stop   			Exec exec killall compton
 
 AddToMenu MenuEditConfigs
-+ "Fvwm_config"	    Exec exec gvim $[infostore.mHome]/config
-+ "Starts"			Exec exec gvim $[infostore.mApps]/Starts
-+ "AppMenu"			Exec exec gvim $[infostore.mApps]/AppMenu
-+ "AppMenu_Head"	Exec exec gvim $[infostore.mApps]/AppMenu_Head
-+ "AppMenu_Tail"	Exec exec gvim $[infostore.mApps]/AppMenu_Tail
-+ "conkyrc"			Exec exec gvim $[infostore.eAppConfig]/conky/conkyrc
-+ "clock_rings.lua"	Exec exec gvim $[infostore.eAppConfig]/tint2/clock_rings.lua
-+ "tint2rc"			Exec exec gvim $[infostore.eAppConfig]/tint2/tint2rc
++ "Fvwm_config"	    Exec exec $[infostore.eEditor] $[infostore.mFvwm]/config
++ "Starts"			Exec exec $[infostore.eEditor] $[infostore.mApps]/Starts
++ "AppMenu"			Exec exec $[infostore.eEditor] $[infostore.mApps]/AppMenu
++ "AppMenu_Head"	Exec exec $[infostore.eEditor] $[infostore.mApps]/AppMenu_Head
++ "AppMenu_Tail"	Exec exec $[infostore.eEditor] $[infostore.mApps]/AppMenu_Tail
++ "conkyrc"			Exec exec $[infostore.eEditor] $[infostore.eAppConfig]/conky/conkyrc
++ "clock_rings.lua"	Exec exec $[infostore.eEditor] $[infostore.eAppConfig]/conky/clock_rings.lua
++ "tint2rc"			Exec exec $[infostore.eEditor] $[infostore.eAppConfig]/tint2/tint2rc
 + ""				Nop		
-+ ".startx-errors"	Exec exec gvim $[HOME]/.startx-errors
-+ "xorg.conf"		Exec exec gksu gvim /etc/X11/xorg.conf
++ ".startx-errors"	Exec exec $[infostore.eEditor] $[HOME]/.startx-errors
++ "xorg.conf"		Exec exec gksu $[infostore.eEditor] /etc/X11/xorg.conf
 
 AddToMenu MenuGamma
 + "Default Gamma"	Exec exec xgamma -gamma 1
@@ -182,9 +183,9 @@ AddToMenu MenuScreenshot
 DestroyMenu MenuFvwmRoot
 AddToMenu "MenuFvwmRoot@$[infostore.mArtwork]/decors/menu_side_black.png@"
 + *$[infostore.mArtwork]/decors/menu_up.png*	    Title
-+ "Terminal"%terminal.png%		                Exec exec urxvtc
-+ "FileManager"%rox.png%                        Exec exec rox
-+ "WebBrowser"%network.png%                     Exec exec chromium-browser
++ "Terminal"%terminal.png%		                Exec exec $[infostore.eTerminal]
++ "FileManager"%rox.png%                        Exec exec $[infostore.eFileManager]
++ "WebBrowser"%network.png%                     Exec exec $[infostore.eWebBrower]
 #+ "Run.."%run.png%			                    Exec exec grun
 + ""					                        Nop
 

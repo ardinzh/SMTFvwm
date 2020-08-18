@@ -9,14 +9,15 @@
 InfoStoreAdd eTerminal "urxvtc"
 InfoStoreAdd eFileManager "rox"
 InfoStoreAdd eWebBrower "chromium-browser"
+InfoStoreAdd eEditor "gvim"
 
 ###	Paths
-InfoStoreAdd eAppConfig "$[Home]/.config"
+InfoStoreAdd eAppConfig "$[HOME]/.config"
 InfoStoreAdd eTemp "/tmp/fvwm_$[USER]"
-InfoStoreAdd mHome "$[HOME]/.fvwm"
-InfoStoreAdd mArtwork "$[infostore.mHome]/artwork"
-InfoStoreAdd mScripts "$[infostore.mHome]/scripts"
-InfoStoreAdd mApps "$[infostore.mHome]/apps"
+InfoStoreAdd mFvwm "$[HOME]/.fvwm"
+InfoStoreAdd mArtwork "$[infostore.mFvwm]/artwork"
+InfoStoreAdd mScripts "$[infostore.mFvwm]/scripts"
+InfoStoreAdd mApps "$[infostore.mFvwm]/apps"
 
 ## mArtwork
 InfoStoreAdd mIcons "$[infostore.mArtwork]/icons"

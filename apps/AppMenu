@@ -11,19 +11,12 @@ AddToMenu "Development"
 
 DestroyMenu "Office"
 AddToMenu "Office" 
-+ "&LibreOffice Base%22x22/libreoffice-base
-libreoffice-document-new.png%" Exec exec libreoffice --base
-+ "&LibreOffice Calc%22x22/libreoffice-calc
-libreoffice-document-new.png%" Exec exec libreoffice --calc
-+ "&LibreOffice Draw%22x22/libreoffice-draw
-libreoffice-document-new.png%" Exec exec libreoffice --draw
-+ "&LibreOffice Impress%22x22/libreoffice-impress
-libreoffice-document-new.png%" Exec exec libreoffice --impress
-+ "&LibreOffice Math%22x22/libreoffice-math
-libreoffice-document-new.png%" Exec exec libreoffice --math
++ "&LibreOffice Calc%22x22/libreoffice-calc.png%" Exec exec libreoffice --calc
++ "&LibreOffice Draw%22x22/libreoffice-draw.png%" Exec exec libreoffice --draw
++ "&LibreOffice Impress%22x22/libreoffice-impress.png%" Exec exec libreoffice --impress
++ "&LibreOffice Math%22x22/libreoffice-math.png%" Exec exec libreoffice --math
 + "&LibreOffice%22x22/libreoffice-startcenter.png%" Exec exec libreoffice
-+ "&LibreOffice Writer%22x22/libreoffice-writer
-libreoffice-document-new.png%" Exec exec libreoffice --writer
++ "&LibreOffice Writer%22x22/libreoffice-writer.png%" Exec exec libreoffice --writer
 + "&Okular%22x22/okular.png%" Exec exec okular
 
 DestroyMenu "Graphics"
@@ -31,9 +24,9 @@ AddToMenu "Graphics"
 + "&Dia Diagram Editor%22x22/dia.png%" Exec exec dia 
 + "&Dia Diagram Editor (integrated mode)%22x22/dia.png%" Exec exec dia --integrated 
 + "&Geeqie%22x22/geeqie.png%" Exec exec geeqie -r 
++ "&Inkscape%22x22/inkscape.png%" Exec exec inkscape 
 + "&MuPDF%22x22/mupdf.png%" Exec exec mupdf
 + "&FontForge%22x22/org.fontforge.png%" Exec exec fontforge
-+ "&Inkscape%22x22/org.inkscape.png%" Exec exec inkscape 
 + "&GNU Image Manipulation Program%22x22/gimp.png%" Exec exec gimp-2.10
 
 DestroyMenu "Network"
@@ -162,6 +155,7 @@ AddToMenu MenuEditConfigs
 + "AppMenu"			Exec exec $[infostore.eEditor] $[infostore.mApps]/AppMenu
 + "AppMenu_Head"	Exec exec $[infostore.eEditor] $[infostore.mApps]/AppMenu_Head
 + "AppMenu_Tail"	Exec exec $[infostore.eEditor] $[infostore.mApps]/AppMenu_Tail
++ ""				Nop		
 + "conkyrc"			Exec exec $[infostore.eEditor] $[infostore.eAppConfig]/conky/conkyrc
 + "clock_rings.lua"	Exec exec $[infostore.eEditor] $[infostore.eAppConfig]/conky/clock_rings.lua
 + "tint2rc"			Exec exec $[infostore.eEditor] $[infostore.eAppConfig]/tint2/tint2rc

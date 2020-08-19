@@ -56,6 +56,7 @@ AddToMenu MenuEditConfigs
 + "AppMenu"			Exec exec $[infostore.eEditor] $[infostore.mApps]/AppMenu
 + "AppMenu_Head"	Exec exec $[infostore.eEditor] $[infostore.mApps]/AppMenu_Head
 + "AppMenu_Tail"	Exec exec $[infostore.eEditor] $[infostore.mApps]/AppMenu_Tail
++ ""				Nop		
 + "conkyrc"			Exec exec $[infostore.eEditor] $[infostore.eAppConfig]/conky/conkyrc
 + "clock_rings.lua"	Exec exec $[infostore.eEditor] $[infostore.eAppConfig]/conky/clock_rings.lua
 + "tint2rc"			Exec exec $[infostore.eEditor] $[infostore.eAppConfig]/tint2/tint2rc

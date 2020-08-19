@@ -1,4 +1,7 @@
 #!/bin/bash
+sysicondir="/usr/share/pixmaps /usr/share/icons /usr/local/share/pixmaps /usr/local/share/icons $HOME/.local/share/icons $HOME/.icons"
+iconsize="22x22"
+
 menutmp=/tmp/fvwm_${USER}/fvwmmenu
 tmpitem=${menutmp}/item
 AppMenu=${1}
@@ -12,10 +15,8 @@ desktoplist="/usr/share/applications/*.desktop /usr/share/applications/kde4/*.de
 
 createicon()
 {
-    sysicondir="/usr/share/pixmaps /usr/share/icons /usr/local/share/pixmaps /usr/local/share/icons $HOME/.local/share/icons $HOME/.icons"
-    iconsize="22x22"
     menuicondir="$HOME/.fvwm/artwork/icons/$iconsize"
-    iconcount="/tmp/fvwmmenu/updatemenu"
+    iconcount=${menutmp}/updatemenu
 
     com="${2##*/}"
     if ! [ -d $menuicondir ]
@@ -52,7 +53,7 @@ createicon()
 }
 
 #__main()__
-mkdir -p /tmp/fvwmmenu
+mkdir -p ${menutmp}
 echo -n > ${AppMenu}
 
 for menu in ${catagories}
@@ -94,7 +95,7 @@ do
 			[ "${cata}" == Multimedia ] && aa=Audio || aa=${cata}
 			grep -q "^Categories=.*${aa}" ${tmpitem}&& menu=${cata} && break
 		done
-		icon="`sed -n "s/^Icon=//p" ${tmpitem}`"
+		icon="`sed -n "s/^Icon=//p" ${tmpitem} | head -n 1`"
 		name="`sed -n "s/^Name=//p" ${tmpitem} | head -n 1`"
 		# echo "+ \"&${name}`${createicon} "${icon}" ${exe}`\" Exec exec ${exe}" >> ${menutmp}/${menu}
 		iconname=$(createicon "${icon}" ${exe})

@@ -7,5 +7,4 @@ xscreensaver -no-splash
 tilda
 remmina -i
 compton -cCGfF -o 0.38 -e 200 -I 200 -t 0 -l -6 -r 5 -D2 -m 0.88 --xinerama-shadow-crop
-sleep 5
 conky -c $[infostore.eAppConfig]/conky/conkyrc

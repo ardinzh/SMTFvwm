@@ -11,6 +11,7 @@ AddToMenu "Development"
 
 DestroyMenu "Office"
 AddToMenu "Office" 
++ "&LibreOffice Base%22x22/libreoffice-base.png%" Exec exec libreoffice --base
 + "&LibreOffice Calc%22x22/libreoffice-calc.png%" Exec exec libreoffice --calc
 + "&LibreOffice Draw%22x22/libreoffice-draw.png%" Exec exec libreoffice --draw
 + "&LibreOffice Impress%22x22/libreoffice-impress.png%" Exec exec libreoffice --impress

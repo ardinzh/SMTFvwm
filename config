@@ -49,7 +49,8 @@ InfoStoreAdd mTintStyle "78"
 InfoStoreAdd mIconAlpha "90"
 
 ###	Pager
-InfoStoreAdd mPagerGeometry "200x124+2604-320"
+# 
+InfoStoreAdd mPagerGeometry "200x124+2728+596"
 InfoStoreAdd mPagerPosition "Right"
 InfoStoreAdd mPagerSize "3x3"
 InfoStoreAdd mPagerWidth "300"
@@ -220,19 +221,25 @@ Style FvwmConsole Title, Borders, !FixedSize
 ##############################
 #####	Functions
 ##############################
+
 ### Start
+DestroyFunc InitFunction
+AddToFunc   InitFunction
+
 DestroyFunc StartFunction
 AddToFunc   StartFunction
-+ I PipeRead 'test ! -d /tmp/fvwm_$[USER] && mkdir /tmp/fvwm_$[USER]'
-+ I PipeRead 'test ! -f $[infostore.mApps]/AppMenu && + I Exec $[infostore.mScripts]/genmenu $[infostore.mApps]/AppMenu'
-# + I PipeRead '[ "$(ls $[infostore.mApps]/AppMenu 2>/dev/null | wc -l)" -eq 0 ] && + I Exec exec $[infostore.mScripts]/genmenu $[infostore.mApps]/AppMenu'
++ I PipeRead "test ! -d $[infostore.eTemp] \
+        && mkdir $[infostore.eTemp]"
+
+# + I PipeRead "test ! -f $[infostore.mApps]/AppMenu \
+#         && RebuildMenu"
++ I PipeRead "test ! -f $[infostore.mApps]/AppMenu \
+        && $[infostore.mScripts]/genmenu $[infostore.mApps]/AppMenu \
+        && echo Read $[infostore.mApps]/AppMenu"
 PipeRead "sed 's/^/+\ I\ Exec\ exec\ /g' $[infostore.mApps]/Starts"
 + I Module FvwmCommandS
 + I Module FvwmEvent
 + I Module FvwmPager
-
-DestroyFunc InitFunction
-AddToFunc   InitFunction
 
 DestroyFunc RestartFunction
 AddToFunc   RestartFunction
@@ -242,7 +249,7 @@ PipeRead "sed 's/^.*&&//g' $[infostore.mApps]/Starts | awk '{print $1}' | sed 's
 DestroyFunc ExitFunction
 AddToFunc   ExitFunction
 PipeRead "sed 's/^.*&&//g' $[infostore.mApps]/Starts | awk '{print $1}' | sed 's/^/+\ I\ Exec\ killall\ /g'"
-+ I PipeRead 'rm -rf /tmp/fvwm_$[USER]'
+PipeRead "rm -rf $[infostore.eTemp]"
 
 DestroyFunc MaximizeFunc
 AddToFunc MaximizeFunc
@@ -313,12 +320,12 @@ AddToFunc Thumbnail
 + I ThisWindow (!Iconic) SetEnv Icon-$[w.id] $[w.iconfile]
 + I ThisWindow (!Shaded, Iconifiable, !Iconic) PipeRead \
     "xwd -silent -id $[w.id] | convert -scale 150 \
-    -mattecolor black -quality 0 -filter blackman xwd:- png:/tmp/fvwm_$[USER]/Thumb$[w.id].png \
-    && echo WindowStyle IconOverride, Icon /tmp/fvwm_$[USER]/Thumb$[w.id].png \
+    -mattecolor black -quality 0 -filter blackman xwd:- png:$[infostore.eTemp]/Thumb$[w.id].png \
+    && echo WindowStyle IconOverride, Icon $[infostore.eTemp]/Thumb$[w.id].png \
     || echo Nop"
-+ I TestRc (Match) Test (f $[w.miniiconfile], f /tmp/fvwm_$[USER]/Thumb$[w.id].png) PipeRead \
-    "composite -geometry +2+4 $[w.miniiconfile] /tmp/fvwm_$[USER]/Thumb$[w.id].png \
-    /tmp/fvwm_$[USER]/Thumb$[w.id].png; echo Nop"
++ I TestRc (Match) Test (f $[w.miniiconfile], f $[infostore.eTemp]/Thumb$[w.id].png) PipeRead \
+    "composite -geometry +2+4 $[w.miniiconfile] $[infostore.eTemp]/Thumb$[w.id].png \
+    $[infostore.eTemp]/Thumb$[w.id].png; echo Nop"
 + I Iconify
 
 DestroyFunc ConfigBrowser
@@ -337,18 +344,6 @@ AddToFunc ConfigBrowser
     --icon-dir folder.png --dir $0 --exec-file "^habak -ms" \
     --exec-t="^eog *" | sed -e "s#FuncFvwmMenuDirectory#WallpaperBrowser#g" \
     -e "s#__PIXMAP__\\(.*\\)\\"\\(.*/\\)\\(.*\\)\\"#\\2.thumbs/\\3\\1\\2\\3#g"'
-# + I PipeRead 'test ! -d "$0/.thumbs" && mkdir "$0/.thumbs"; \
-#     for i in "$0/"*; do \
-#         test -f "$0/.thumbs/${i##*/}" \
-#             -a "${i}" -ot "$0/.thumbs/${i##*/}" || { \
-#                 convert -quality 0 -scale 48 "${i}" "png:$0/.thumbs/${i##*/}" 2>/dev/null \
-#                     || continue; \
-#             }; \
-#     done; \
-#     fvwm-menu-directory --icon-title folder.png --icon-file __PIXMAP__ \
-#     --icon-dir folder.png --dir $0 --exec-file "^habak -ms" \
-#     --exec-t="^eog *" | sed -e "s#FuncFvwmMenuDirectory#WallpaperBrowser#g" \
-#     -e "s#__PIXMAP__\\(.*\\)\\"\\(.*/\\)\\(.*\\)\\"#\\2.thumbs/\\3\\1\\2\\3#g"'
 
 DestroyFunc WindowOpsFunc
 AddToFunc WindowOpsFunc
@@ -426,12 +421,15 @@ AddToFunc WindowListFunc
 
 DestroyFunc RebuildMenu
 AddToFunc RebuildMenu
-+ I Exec exec $[infostore.mScripts]/genmenu $[infostore.mApps]/AppMenu
-+ PipeRead '[ -f $[infostore.mApps]/AppMenu ] && echo Read $[infostore.mApps]/AppMenu'
++ I PipeRead "$[infostore.mScripts]/genmenu $[infostore.mApps]/AppMenu \
+        && echo Read $[infostore.mApps]/AppMenu"
+# + I Exec exec $[infostore.mScripts]/genmenu $[infostore.mApps]/AppMenu
+# + PipeRead '[ -f $[infostore.mApps]/AppMenu ] && echo Read $[infostore.mApps]/AppMenu'
 
 DestroyFunc MoveScript
 AddToFunc   MoveScript
 + M ThisWindow (!FvwmPager, !FvwmButtons, !Iconic, !Iconifiable) Move
+
 ##############################
 #####	Menus
 ##############################
@@ -559,4 +557,4 @@ Stroke N456	0 	TSF4	N   Maximize True growright 0
 Stroke N654	0 	TSF4	N   Maximize True growleft  0
 Stroke N852	0 	TSF4	N   Maximize True 0 growdown
 Stroke N258	0 	TSF4	N   Maximize True 0 growup
-########## End Fvwm	Settings
+ ########## End Fvwm	Settings
